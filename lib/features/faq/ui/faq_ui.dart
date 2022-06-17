@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
+import '../../../common/widgets/footer/footer_ui.dart';
 
 class FAQView extends StatefulWidget {
   const FAQView({Key? key}) : super(key: key);
@@ -180,81 +181,7 @@ class _FAQViewState extends State<FAQView> {
             SizedBox(
               height: size.height * 0.1,
             ),
-            Container(
-              height: 180,
-              width: MediaQuery.of(context).size.width,
-              //alignment: Alignment.bottomCenter,
-              decoration: const BoxDecoration(
-                  color: AppColors.amber,
-                  image: DecorationImage(
-                      alignment: Alignment.topCenter,
-                      image: AssetImage('assets/images/footer_banner.png'),
-                      fit: BoxFit.cover)),
-              child: Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: AppSizes.dimen55),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/fanex_logo.png',
-                      width: 170,
-                      fit: BoxFit.cover,
-                    ),
-                    Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      'Terms Of Use',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: AppColors.white,
-                                      ),
-                                    )),
-                                const Text(
-                                  '|',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: AppColors.white,
-                                  ),
-                                ),
-                                TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      'Privacy Policy',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: AppColors.white,
-                                      ),
-                                    )),
-                              ],
-                            ),
-                            Flexible(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: const Text(
-                                  'This game involves an element of financial risk and may be addictive. Please play responsibly at your own risk. All FanEx contests are only applicable for residents of India above 18 years old. Residents located in Assam, Sikkim, Nagaland, Andra Pradesh, Odisha, Tamil Nadu, and Telangana are not eligible to participate in any contest.',
-                                  maxLines: 2,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
-                  ],
-                ),
-              ),
-            ),
+            const FooterView(),
           ]),
         ),
       ),

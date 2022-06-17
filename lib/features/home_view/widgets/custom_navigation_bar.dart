@@ -159,136 +159,27 @@ void initState(){
             },
           ),
         ),
-        floatingActionButton: Visibility(
-          visible: _isVisibleForScrollView,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: AppSizes.dimen16,right: AppSizes.dimen30),
-            child: CircleAvatar(
-              radius: 30,
-              backgroundColor: AppColors.white,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.amber,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                height: 50,
-                width: 50,
-                child: const Icon(EvaIcons.arrowheadUpOutline,color: AppColors.white,size: 25,),
-              ),
-            ),
-          ),
-        ),
+        // floatingActionButton: Visibility(
+        //   visible: _isVisibleForScrollView,
+        //   child: Padding(
+        //     padding: const EdgeInsets.only(bottom: AppSizes.dimen16,right: AppSizes.dimen30),
+        //     child: CircleAvatar(
+        //       radius: 30,
+        //       backgroundColor: AppColors.white,
+        //       child: Container(
+        //         decoration: BoxDecoration(
+        //           color: AppColors.amber,
+        //           borderRadius: BorderRadius.circular(30),
+        //         ),
+        //         height: 50,
+        //         width: 50,
+        //         child: const Icon(EvaIcons.arrowheadUpOutline,color: AppColors.white,size: 25,),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }
 }
-// class StickyNavBar extends StatelessWidget {
-//   final IndexLoaded indexLoaded;
-//   const StickyNavBar({Key? key,required this.indexLoaded}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return  SliverPersistentHeader(
-//       floating: true,
-//         pinned: true, delegate: Delegate(indexLoaded));
-//   }
-// }
-// class Delegate extends SliverPersistentHeaderDelegate {
-//  final IndexLoaded state;
-//  Delegate(this.state);
-//  List<String> title = [
-//    'HOME',
-//    'HOW TO PLAY',
-//    'RULES AND SCORING',
-//    'CHAKRA LEADERBOARD',
-//    'FAQ',
-//    'CONTACT'
-//  ];
-//   @override
-//   Widget build(
-//       BuildContext context, double shrinkOffset, bool overlapsContent) {
-//     return Container(
-//       // margin:const EdgeInsets.symmetric(horizontal: AppSizes.dimen30,vertical: AppSizes.dimen8),
-//       decoration: BoxDecoration(color: AppColors.white.withOpacity(0.5), boxShadow: [
-//         BoxShadow(
-//             color: AppColors.black.withOpacity(0.1),
-//             blurRadius: 1,
-//             spreadRadius: 2)
-//       ]),
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: AppSizes.dimen30,vertical: AppSizes.dimen8),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Image.asset(
-//               'assets/images/fanex_logo.png',
-//               width: 170,
-//               fit: BoxFit.cover,
-//             ),
-//             SizedBox(
-//               child: MediaQuery.of(context).size.width > 720
-//                   ? Align(
-//                 alignment: Alignment.topRight,
-//                 child: ListView.separated(
-//                   itemCount: title.length,
-//                   shrinkWrap: true,
-//                   scrollDirection: Axis.horizontal,
-//                   itemBuilder:
-//                       (BuildContext context, int index) {
-//                     return InkWell(
-//                       onTap: () {
-//                         BlocProvider.of<IndexBloc>(
-//                             context)
-//                             .add(GetIndex(index));
-//                         if (kDebugMode) {
-//                           print(index);
-//                         }
-//                       },
-//                       child: Center(
-//                           child: Text(
-//                             title[index],
-//                             style: TextStyle(
-//                                 color: index == state.index
-//                                     ? AppColors.white
-//                                     : AppColors.darkGrey,
-//                                 fontSize: 15,
-//                                 fontWeight:
-//                                 index == state.index
-//                                     ? FontWeight.bold
-//                                     : FontWeight.normal),
-//                           )),
-//                     );
-//                   },
-//                   separatorBuilder:
-//                       (BuildContext context, int index) {
-//                     return const SizedBox(
-//                       width: 20,
-//                     );
-//                   },
-//                 ),
-//               )
-//                   : Align(
-//                 alignment: Alignment.topRight,
-//                 child: IconButton(
-//                   onPressed: () {},
-//                   icon: const Icon(Icons.menu),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   @override
-//   double get maxExtent => 60;
-//
-//   @override
-//   double get minExtent => 60;
-//
-//   @override
-//   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-//     return false;
-//   }
-// }
+

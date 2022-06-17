@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import '../../../common/common.dart';
+import '../../../common/widgets/footer/footer_ui.dart';
 
 class HowToPlayView extends StatefulWidget {
   const HowToPlayView({Key? key}) : super(key: key);
@@ -160,61 +161,58 @@ class _HowToPlayViewState extends State<HowToPlayView> {
                                 : 2,
                         crossAxisSpacing: 20.0),
                     itemBuilder: (BuildContext context, int index) {
-                      return Theme(
-                        data: ThemeData(hoverColor: AppColors.seeGreen),
-                        child: MouseRegion(
-                          onEnter: (event) {
+                      return MouseRegion(
+                        onEnter: (event) {
+                          setState(() {
+                            if (kDebugMode) {
+                              print(index);
+                            }
+                            hoverIndex = index;
+                          });
+                        },
+                        onExit: (event) {
+                          setState(() {
+                            hoverIndex = selectedIndex;
+                          });
+                        },
+                        child: InkWell(
+                          onTap: () {
                             setState(() {
-                              if (kDebugMode) {
-                                print(index);
-                              }
-                              hoverIndex = index;
+                              selectedIndex = index;
                             });
                           },
-                          onExit: (event) {
-                            setState(() {
-                              hoverIndex = selectedIndex;
-                            });
-                          },
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                selectedIndex = index;
-                              });
-                            },
-                            child: Card(
-                              color:
-                                  hoverIndex == index || selectedIndex == index
-                                      ? AppColors.seeGreen
-                                      : AppColors.white,
-                              elevation: 5,
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  Image.asset(
-                                    imageTitle[index],
-                                    width: size.width * 0.050,
-                                    height: size.width * 0.050,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    title[index],
-                                    style: TextStyle(
-                                        fontFamily: 'Oswald',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: hoverIndex == index ||
-                                                selectedIndex == index
-                                            ? AppColors.white
-                                            : AppColors.black),
-                                  )
-                                ],
-                              ),
+                          child: Card(
+                            color:
+                                hoverIndex == index || selectedIndex == index
+                                    ? AppColors.seeGreen
+                                    : AppColors.white,
+                            elevation: 5,
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                Image.asset(
+                                  imageTitle[index],
+                                  width: size.width * 0.050,
+                                  height: size.width * 0.050,
+                                  fit: BoxFit.fill,
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  title[index],
+                                  style: TextStyle(
+                                      fontFamily: 'Oswald',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: hoverIndex == index ||
+                                              selectedIndex == index
+                                          ? AppColors.white
+                                          : AppColors.black),
+                                )
+                              ],
                             ),
                           ),
                         ),
@@ -290,81 +288,7 @@ class _HowToPlayViewState extends State<HowToPlayView> {
               SizedBox(
                 height: size.height * 0.1,
               ),
-              Container(
-                height: 180,
-                width: MediaQuery.of(context).size.width,
-                //alignment: Alignment.bottomCenter,
-                decoration: const BoxDecoration(
-                    color: AppColors.amber,
-                    image: DecorationImage(
-                        alignment: Alignment.topCenter,
-                        image: AssetImage('assets/images/footer_banner.png'),
-                        fit: BoxFit.cover)),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: AppSizes.dimen55),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/fanex_logo.png',
-                        width: 170,
-                        fit: BoxFit.cover,
-                      ),
-                      Expanded(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    'Terms Of Use',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: AppColors.white,
-                                    ),
-                                  )),
-                              const Text(
-                                '|',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: AppColors.white,
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    'Privacy Policy',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: AppColors.white,
-                                    ),
-                                  )),
-                            ],
-                          ),
-                          Flexible(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              child: const Text(
-                                'This game involves an element of financial risk and may be addictive. Please play responsibly at your own risk. All FanEx contests are only applicable for residents of India above 18 years old. Residents located in Assam, Sikkim, Nagaland, Andra Pradesh, Odisha, Tamil Nadu, and Telangana are not eligible to participate in any contest.',
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                    ],
-                  ),
-                ),
-              ),
+              const FooterView(),
             ],
           ),
         ),
