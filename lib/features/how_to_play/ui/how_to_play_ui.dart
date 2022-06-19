@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import '../../../common/common.dart';
 import '../../../common/widgets/footer/footer_ui.dart';
+import '../../../common/widgets/header/header_ui.dart';
+import '../../../common/widgets/scroll_control_button/scroll_control_button.dart';
+
 
 class HowToPlayView extends StatefulWidget {
   const HowToPlayView({Key? key}) : super(key: key);
@@ -16,7 +19,6 @@ class HowToPlayView extends StatefulWidget {
 class _HowToPlayViewState extends State<HowToPlayView> {
   String? videoId;
 
-  //late VideoPlayerController controller;
   late YoutubePlayerController controller;
   List<String> imageTitle = [
     'assets/images/sign_in.png',
@@ -36,27 +38,40 @@ class _HowToPlayViewState extends State<HowToPlayView> {
     'WITHDRAWALS',
     'OTHERS',
   ];
+  List<String> tabTitle = [
+    'HOME',
+    'HOW TO PLAY',
+    'RULES AND SCORING',
+    'CHAKRA LEADERBOARD',
+    'FAQ',
+    'CONTACT'
+  ];
 
-  //  @override
-  //  void initState() {
-  //    super.initState();
-  //    controller = VideoPlayerController.network('https://www.youtube.com/embed/XMKJj4GXFn4');
-  //    controller.addListener(() {
-  //      setState(() {});
-  //    });
-  //    controller.setLooping(true);
-  //    controller.initialize().then((_) => setState(() {}));
-  //    controller.play();
-  //  }
-  //
-  //  @override
-  //  void dispose() {
-  //    controller.dispose();
-  //    super.dispose();
-  //  }
+  final ScrollController _scrollController = ScrollController();
+  var _isVisibleForScrollView = false;
+
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.atEdge) {
+        if (_scrollController.position.pixels == 0) {
+          if (_isVisibleForScrollView)
+          {
+            setState(() {
+              _isVisibleForScrollView = false;
+            });
+          }
+        }
+      } else {
+        if (!_isVisibleForScrollView)
+        {
+          setState(() {
+            _isVisibleForScrollView = true;
+          });
+        }
+      }
+    });
     videoId = 'XMKJj4GXFn4';
     if (kDebugMode) {
       print(videoId);
@@ -72,7 +87,6 @@ class _HowToPlayViewState extends State<HowToPlayView> {
       ),
     );
   }
-
   bool showControl = false;
   int hoverIndex = 0;
   int selectedIndex = 0;
@@ -99,6 +113,7 @@ class _HowToPlayViewState extends State<HowToPlayView> {
           child: ListView(
             shrinkWrap: true,
             children: [
+              Header(),
               SizedBox(
                 height: size.height * 0.43,
               ),
@@ -293,6 +308,10 @@ class _HowToPlayViewState extends State<HowToPlayView> {
           ),
         ),
       ),
+      floatingActionButton: ScrollControlButton(onTap: () {
+        _scrollController.animateTo(0,
+            duration: const Duration(seconds: 1), curve: Curves.linear);
+      }, isVisible: _isVisibleForScrollView,),
     );
   }
 }

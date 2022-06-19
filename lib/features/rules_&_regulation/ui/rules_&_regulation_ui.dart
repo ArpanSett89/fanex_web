@@ -1,8 +1,13 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/common.dart';
 import '../../../common/widgets/footer/footer_ui.dart';
+import '../../../common/widgets/header/header_ui.dart';
+import '../../../common/widgets/scroll_control_button/scroll_control_button.dart';
+import '../../../utils/indexing_bloc/index_bloc.dart';
 
 class RulesRegulationView extends StatefulWidget {
   const RulesRegulationView({Key? key}) : super(key: key);
@@ -30,10 +35,43 @@ class _RulesRegulationViewState extends State<RulesRegulationView> {
     'CONFIRMED PLAYERS',
     'CANCELLATIONS',
   ];
+  List<String> tabTitle = [
+    'HOME',
+    'HOW TO PLAY',
+    'RULES AND SCORING',
+    'CHAKRA LEADERBOARD',
+    'FAQ',
+    'CONTACT'
+  ];
   int hoverIndex = 0;
   int selectedIndex = 0;
   double count=0;
   bool onTap=false;
+  final ScrollController _scrollController = ScrollController();
+  var _isVisibleForScrollView = false;
+  @override
+  void initState(){
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.atEdge) {
+        if (_scrollController.position.pixels == 0) {
+          if (_isVisibleForScrollView)
+          {
+            setState(() {
+              _isVisibleForScrollView = false;
+            });
+          }
+        }
+      } else {
+        if (!_isVisibleForScrollView)
+        {
+          setState(() {
+            _isVisibleForScrollView = true;
+          });
+        }
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -52,6 +90,7 @@ class _RulesRegulationViewState extends State<RulesRegulationView> {
           child: ListView(
             shrinkWrap: true,
             children: [
+              Header(),
               SizedBox(
                 height: size.height * 0.43,
               ),
@@ -206,6 +245,10 @@ class _RulesRegulationViewState extends State<RulesRegulationView> {
           ),
         ),
       ),
+      floatingActionButton: ScrollControlButton(onTap: () {
+        _scrollController.animateTo(0,
+            duration: const Duration(seconds: 1), curve: Curves.linear);
+      }, isVisible: _isVisibleForScrollView,),
     );
   }
 }

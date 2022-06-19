@@ -1,8 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:html' as html;
 import '../../../common/common.dart';
 import '../../../common/widgets/footer/footer_ui.dart';
+import '../../../common/widgets/header/header_ui.dart';
+import '../../../common/widgets/scroll_control_button/scroll_control_button.dart';
+import '../../../utils/indexing_bloc/index_bloc.dart';
 
 class ContactView extends StatefulWidget {
   const ContactView({Key? key}) : super(key: key);
@@ -21,6 +25,14 @@ class _ContactViewState extends State<ContactView> {
     'ADDRESS',
     'EMAIL',
     'SOCIAL ACCOUNT',
+  ];
+  List<String> tabTitle = [
+    'HOME',
+    'HOW TO PLAY',
+    'RULES AND SCORING',
+    'CHAKRA LEADERBOARD',
+    'FAQ',
+    'CONTACT'
   ];
 
   getIndex(int index) {
@@ -89,7 +101,31 @@ class _ContactViewState extends State<ContactView> {
       );
     }
   }
-
+  final ScrollController _scrollController = ScrollController();
+  var _isVisibleForScrollView = false;
+  @override
+  void initState(){
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.atEdge) {
+        if (_scrollController.position.pixels == 0) {
+          if (_isVisibleForScrollView)
+          {
+            setState(() {
+              _isVisibleForScrollView = false;
+            });
+          }
+        }
+      } else {
+        if (!_isVisibleForScrollView)
+        {
+          setState(() {
+            _isVisibleForScrollView = true;
+          });
+        }
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -104,6 +140,7 @@ class _ContactViewState extends State<ContactView> {
         child: ListView(
           shrinkWrap: true,
           children: [
+            Header(),
             SizedBox(
               height: size.height * 0.30,
             ),
@@ -124,13 +161,12 @@ class _ContactViewState extends State<ContactView> {
               child: Container(
                 // color: AppColors.black,
                 width: size.width,
-                height: size.height * 0.5,
+                height: size.height * 0.35,
                 child: Center(
                   child: ListView.separated(
                     itemCount: 3,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    //gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:3,crossAxisSpacing: 20.0),
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         decoration: BoxDecoration(
@@ -139,54 +175,56 @@ class _ContactViewState extends State<ContactView> {
                         ),
                         // height: 250,
                         width: 250,
-                        child: Column(
-                          //mainAxisAlignment: MainAxisAlignment.start,
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 15),
-                            Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    imageTitle[index],
-                                  ),
-                                  fit: BoxFit.cover,
-                                ),
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(
-                                      1.0,
-                                      1.0,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 15),
+                              Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      imageTitle[index],
                                     ),
-                                    color: Colors.black.withOpacity(0.1),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                  )
-                                ],
+                                    fit: BoxFit.cover,
+                                  ),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: const Offset(
+                                        1.0,
+                                        1.0,
+                                      ),
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                    )
+                                  ],
+                                ),
+                                height: 180,
+                                width: 180,
                               ),
-                              height: 180,
-                              width: 180,
-                            ),
-                            const SizedBox(height: 15),
-                            Text(
-                              title[index],
-                              style: const TextStyle(
-                                  fontFamily: 'Oswald',
-                                  fontSize: 20,
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: getIndex(index),
-                            ),
-                          ],
+                              const SizedBox(height: 15),
+                              Text(
+                                title[index],
+                                style: const TextStyle(
+                                    fontFamily: 'Oswald',
+                                    fontSize: 20,
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: getIndex(index),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(
+                      return const SizedBox(
                         width: 30,
                       );
                     },
@@ -201,6 +239,10 @@ class _ContactViewState extends State<ContactView> {
           ],
         ),
       ),
+      floatingActionButton: ScrollControlButton(onTap: () {
+        _scrollController.animateTo(0,
+            duration: const Duration(seconds: 1), curve: Curves.linear);
+      }, isVisible: _isVisibleForScrollView,),
     );
   }
 }

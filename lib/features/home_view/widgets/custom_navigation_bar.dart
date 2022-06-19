@@ -79,13 +79,8 @@ void initState(){
                       ),
 
                     Container(
-                      // margin: EdgeInsets.symmetric(horizontal: 8),
                        alignment: Alignment.topCenter,
                       color:AppColors.white.withOpacity(0.7),
-                      // margin: EdgeInsets.only(
-                      //     left: size.width * 0.050,
-                      //     right: size.width * 0.050,
-                      //     top: size.height * 0.03),
                       height:60,
                       width: size.width,
                       child: Padding(

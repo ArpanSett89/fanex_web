@@ -1,17 +1,29 @@
 import 'package:fanex_web/utils/indexing_bloc/index_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'features/home_view/widgets/custom_navigation_bar.dart';
+import 'features/chakra/ui/chakra_ui.dart';
+import 'features/contact/ui/contact_ui.dart';
+import 'features/faq/ui/faq_ui.dart';
+import 'features/home_view/ui/home_view.dart';
+import 'features/how_to_play/ui/how_to_play_ui.dart';
+import 'features/rules_&_regulation/ui/rules_&_regulation_ui.dart';
 
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+   MyApp({super.key});
+  List<Widget> pageList = [
+    const HomeView(),
+    const HowToPlayView(),
+    const RulesRegulationView(),
+    const ChakraView(),
+    const FAQView(),
+    const ContactView(),
+  ];
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -22,8 +34,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home:  BlocProvider<IndexBloc>(
-      create: (context) => IndexBloc(),
-    child: const CustomNavigationBar(),
+      create: (context) => IndexBloc()..add(GetIndex(0)),
+    child: BlocBuilder<IndexBloc,IndexState>(builder: (context,state){
+      if(state is IndexLoaded){
+        return pageList[state.index];
+      }
+      return Container();
+    })
     ),);
   }
 }

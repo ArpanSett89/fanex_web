@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
 import '../../../common/widgets/footer/footer_ui.dart';
+import '../../../common/widgets/header/header_ui.dart';
+import '../../../common/widgets/scroll_control_button/scroll_control_button.dart';
 
 class FAQView extends StatefulWidget {
   const FAQView({Key? key}) : super(key: key);
@@ -13,6 +15,14 @@ class FAQView extends StatefulWidget {
 }
 
 class _FAQViewState extends State<FAQView> {
+  List<String> tabTitle = [
+    'HOME',
+    'HOW TO PLAY',
+    'RULES AND SCORING',
+    'CHAKRA LEADERBOARD',
+    'FAQ',
+    'CONTACT'
+  ];
   List<String> title = [
     'IS DAILY FANTASY CRICKET LEGAL ON THE FAN EXCHANGE (“FANEX”)?',
     'ARE DAILY FANTASY SPORTS BANNED IN ANY STATES OF INDIA?',
@@ -32,7 +42,31 @@ class _FAQViewState extends State<FAQView> {
   int selectedIndex = 0;
   double count = 0;
   int onTap = 20;
-
+  final ScrollController _scrollController = ScrollController();
+  var _isVisibleForScrollView = false;
+  @override
+  void initState(){
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.atEdge) {
+        if (_scrollController.position.pixels == 0) {
+          if (_isVisibleForScrollView)
+          {
+            setState(() {
+              _isVisibleForScrollView = false;
+            });
+          }
+        }
+      } else {
+        if (!_isVisibleForScrollView)
+        {
+          setState(() {
+            _isVisibleForScrollView = true;
+          });
+        }
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     print( MediaQuery.of(context).size.width*0.07);
@@ -47,6 +81,7 @@ class _FAQViewState extends State<FAQView> {
                   image: AssetImage('assets/images/faq_banner.png'),
                   fit: BoxFit.contain)),
           child: ListView(shrinkWrap: true, children: [
+            Header(),
             SizedBox(
               height: size.height * 0.34,
             ),
@@ -185,6 +220,11 @@ class _FAQViewState extends State<FAQView> {
           ]),
         ),
       ),
+      floatingActionButton: ScrollControlButton(onTap: () {
+      _scrollController.animateTo(0,
+          duration: const Duration(seconds: 1), curve: Curves.linear);
+    }, isVisible: _isVisibleForScrollView,),
+
     );
   }
 }
