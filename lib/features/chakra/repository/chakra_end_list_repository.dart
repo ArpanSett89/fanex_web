@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 class ChakraEndListRepository {
   Future<ChakraEndDateListResponseModel> getData() async {
+    print(FanexURLs.endDateList);
     final response = await http.Client().get(Uri.parse(FanexURLs.endDateList));
     if (response.statusCode == 200) {
       print(response.body);

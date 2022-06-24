@@ -1,7 +1,11 @@
 import 'package:fanex_web/common/common.dart';
 import 'package:fanex_web/common/widgets/header/header_ui.dart';
+import 'package:fanex_web/features/chakra/bloc/chakra_body_list_bloc/body_list_bloc.dart';
+import 'package:fanex_web/features/chakra/bloc/chakra_end_list_bloc/end_list_bloc.dart';
+import 'package:fanex_web/features/chakra/model/chakra_end_date_list_response_model.dart';
 import 'package:fanex_web/utils/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/widgets/footer/footer_ui.dart';
 
 class ChakraView extends StatefulWidget {
@@ -20,9 +24,11 @@ class _ChakraViewState extends State<ChakraView> {
     AppStrings.tabText5,
     AppStrings.tabText6,
   ];
-  String dropdownValue = 'HOME';
+  String dropdownValue = '';
+  int dropdownValueIndex = 0;
   int hoverIndex = 0;
   int selectedIndex = 0;
+  List<String> date = [];
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +69,6 @@ class _ChakraViewState extends State<ChakraView> {
                                 color: AppColors.white,
                               ))),
                       Expanded(
-                        flex: 4,
                         child: TextField(
                           decoration: InputDecoration(
                             filled: true,
@@ -78,39 +83,65 @@ class _ChakraViewState extends State<ChakraView> {
                       const SizedBox(
                         width: 10,
                       ),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          value: dropdownValue,
-                          elevation: 0,
-                          dropdownColor: AppColors.header.withOpacity(0.7),
-                          underline: const SizedBox(
-                            height: 0,
-                            width: 0,
-                          ),
-                          icon: const Icon(
-                            Icons.menu,
-                            size: AppSizes.dimen30,
-                            color: AppColors.white,
-                          ),
-                          items: tabTitle.map((e) {
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Center(
-                                child: Text(
-                                  e,
-                                  style: const TextStyle(
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.normal),
+                      BlocBuilder<EndListBloc, EndListState>(
+                        builder: (context, state) {
+                          if (state is EndListLoaded) {
+                            BlocProvider.of<BodyListBloc>(context).add(
+                                GetBodyList(state.chakraEndDateListResponseModel
+                                    .data![dropdownValueIndex].id
+                                    .toString()));
+                            return DropdownButtonHideUnderline(
+                              child: DropdownButton<Data>(
+                                value: state.chakraEndDateListResponseModel
+                                    .data![dropdownValueIndex],
+                                elevation: 0,
+                                dropdownColor:
+                                    AppColors.header.withOpacity(0.7),
+                                underline: const SizedBox(
+                                  height: 0,
+                                  width: 0,
                                 ),
+                                icon: const Icon(
+                                  Icons.menu,
+                                  size: AppSizes.dimen30,
+                                  color: AppColors.white,
+                                ),
+                                items: state
+                                    .chakraEndDateListResponseModel.data!
+                                    .map((e) {
+                                  return DropdownMenuItem<Data>(
+                                    value: e,
+                                    child: Center(
+                                      child: Text(
+                                        e.date.toString(),
+                                        style:  TextStyle(
+                                            color:dropdownValueIndex==state.chakraEndDateListResponseModel.data!.indexOf(e)?AppColors.white:AppColors.orange,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (Data? newValue) {
+                                  setState(() {
+                                    // dropdownValue = newValue.toString();
+                                    dropdownValueIndex = state
+                                        .chakraEndDateListResponseModel.data!
+                                        .indexOf(newValue!);
+                                    print(
+                                        "dropdownValueIndex $dropdownValueIndex");
+                                  });
+                                  BlocProvider.of<BodyListBloc>(context).add(
+                                      GetBodyList(state
+                                          .chakraEndDateListResponseModel
+                                          .data![dropdownValueIndex]
+                                          .id
+                                          .toString()));
+                                },
                               ),
                             );
-                          }).toList(),
-                          onChanged: (newValue) {
-                            setState(() {
-                              dropdownValue = newValue.toString();
-                            });
-                          },
-                        ),
+                          }
+                          return Container();
+                        },
                       ),
                       const SizedBox(
                         width: 10,
@@ -200,7 +231,7 @@ class _BodyState extends State<Body> {
                                         bottom: Radius.circular(15),
                                       ),
                               ),
-                              height: size.height * 0.1,
+                              height: size.height * 0.15,
                               width: size.width,
                               child: Center(
                                 child: Text(widget.tabTitle[index]),
@@ -713,292 +744,394 @@ class _BodyState extends State<Body> {
               )
             ],
           ),
-          desktop: Container(
-            color: AppColors.amber,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  decoration: BoxDecoration(
-                    color: AppColors.white.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: ListView.separated(
-                    itemCount: widget.tabTitle.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return MouseRegion(
-                        onEnter: (event) {
-                          setState(() {
-                            hoverIndex = index;
-                          });
-                        },
-                        onExit: (event) {
-                          setState(() {
-                            hoverIndex = selectedIndex;
-                          });
-                        },
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: hoverIndex == index || selectedIndex == index
-                                  ? AppColors.seeGreen
-                                  : index.isEven
-                                      ? AppColors.lightGrey
-                                      : AppColors.white,
-                              borderRadius: index == 0
-                                  ? BorderRadius.circular(15)
-                                  : const BorderRadius.vertical(
-                                      bottom: Radius.circular(15),
-                                    ),
-                            ),
-                            height: size.height * 0.1,
-                            width: size.width,
-                            child: Center(
-                              child: Text(widget.tabTitle[index]),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        height: 10,
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: size.width * 0.02,
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Container(
-                        //height: size.height * 0.7,
-                        width: size.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: AppColors.lightGrey.withOpacity(0.78),
-                            image: const DecorationImage(
-                                alignment: Alignment.topCenter,
-                                image:
-                                    AssetImage('assets/images/chakra_body.png'),
-                                fit: BoxFit.cover)),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: AppSizes.dimen24,
-                                  left: AppSizes.dimen24,
-                                  right: AppSizes.dimen24),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Card(
-                                    color: AppColors.seeGreen,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: const [
-                                          Text(
-                                            AppStrings.sinceText,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: AppColors.white),
-                                          ),
-                                          Text(
-                                            AppStrings.dateText,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: AppColors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 50,
-                                  ),
-                                  Card(
-                                    color: AppColors.orange,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Row(
-                                        children: const [
-                                          Text(
-                                            AppStrings.chakraEndText,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: AppColors.black),
-                                          ),
-                                          Text(
-                                            AppStrings.dateText,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: AppColors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 60,
-                            ),
-                            Center(
-                              child: ListView(
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                children: [
-                                  const Center(
-                                      child: Text(
-                                    "🏆",
-                                    style: TextStyle(
-                                      //fontFamily: 'Oswald',
-                                      fontSize: 100,
-                                    ),
-                                  )),
-                                  const Center(
-                                      child: Text(
-                                    "1'st",
-                                    style: TextStyle(
-                                        fontFamily: 'Oswald',
-                                        fontSize: 30,
-                                        color: AppColors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Stack(
-                                    alignment: AlignmentDirectional.center,
-                                    children: [
-                                      Column(
-                                        children: const [
-                                          CircleAvatar(
-                                            backgroundColor: AppColors.white,
-                                            radius: 70,
-                                            child: CircleAvatar(
-                                              backgroundImage: AssetImage(
-                                                'assets/images/rules&scoring_banner.png',
-                                              ),
-                                              radius: 65,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 30,
-                                          ),
-                                        ],
-                                      ),
-                                      Positioned(
-                                          bottom: 0,
-                                          right: 50,
-                                          top: 100,
-                                          left: 50,
-                                          child: Image.asset(
-                                            'assets/images/chakra.png',
-                                            fit: BoxFit.contain,
-                                            height: 100,
-                                            width: 100,
-                                          )
-                                          // Transform.scale(
-                                          //   //scale: 0.9,
-                                          //   child:
-                                          // ),
-                                          ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Center(
-                                      child: Text(
-                                    widget.tabTitle[selectedIndex],
-                                    style: const TextStyle(
-                                        fontFamily: 'Oswald',
-                                        fontSize: 40,
-                                        color: AppColors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                                  const SizedBox(
-                                    height: 50,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.width * 0.02,
-                      ),
-                      Container(
-                        //height: size.height * 0.5,
-                        width: size.width,
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+          desktop: BlocBuilder<BodyListBloc, BodyListState>(
+            builder: (context, state) {
+              if (state is BodyListInitial||state is BodyListLoading) {
+                return Container(
+                    height: size.height,
+                    width: size.width,
+                    child: const Center(child: CircularProgressIndicator()));
+              }
+              if (state is BodyListLoaded) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      height: size.height * 2,
+                      width: size.width * 0.3,
+                      child: Expanded(
                         child: ListView.builder(
-                            itemCount: 5,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(AppSizes.dimen16),
-                                child: Card(
-                                  color: AppColors.white,
+                          itemCount: state.chakraBodyListModel.data!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return MouseRegion(
+                              onEnter: (event) {
+                                setState(() {
+                                  hoverIndex = index;
+                                });
+                              },
+                              onExit: (event) {
+                                setState(() {
+                                  hoverIndex = selectedIndex;
+                                });
+                              },
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    selectedIndex = index;
+                                  });
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  decoration: BoxDecoration(
+                                    color: hoverIndex == index ||
+                                            selectedIndex == index
+                                        ? AppColors.seeGreen
+                                        : index.isEven
+                                            ? AppColors.lightGrey
+                                            : AppColors.white,
+                                    borderRadius: index == 0
+                                        ? BorderRadius.circular(15)
+                                        : const BorderRadius.vertical(
+                                            bottom: Radius.circular(15),
+                                          ),
+                                  ),
+                                  height: size.height * 0.15,
+                                  // width: size.width,
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.all(AppSizes.dimen16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
                                     child: Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundColor: AppColors.lightGrey,
-                                          radius: 40,
-                                          child: CircleAvatar(
-                                            radius: 35,
-                                            backgroundColor: AppColors.white,
-                                            child: Image.asset(
-                                              'assets/icons/doller_icon.png',
-                                              fit: BoxFit.cover,
-                                              height: 45,
-                                              width: 45,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 30,
+                                            backgroundColor: index.isEven
+                                                ? AppColors.white
+                                                : AppColors.lightGrey,
+                                            child: CircleAvatar(
+                                              radius: 25,
+                                              // backgroundColor: AppColors.white,
+                                              foregroundImage: NetworkImage(
+                                                  state.chakraBodyListModel
+                                                      .data![index].imageUrl!),
+                                              // child: Image.network(
+                                              //   state.chakraBodyListModel
+                                              //       .data![index].imageUrl
+                                              //       .toString(),
+                                              //   fit: BoxFit.cover,
+                                              // ),
                                             ),
                                           ),
-                                        ),
-                                        const Text(
-                                          AppStrings.cashWonText,
-                                          style: TextStyle(
-                                              fontFamily: 'Oswald',
-                                              fontSize: 30,
-                                              color: AppColors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            // crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                state.chakraBodyListModel
+                                                    .data![index].userUsername
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.black),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    AppStrings.sinceText,
+                                                    style: TextStyle(
+                                                      color: hoverIndex ==
+                                                                  index ||
+                                                              selectedIndex ==
+                                                                  index
+                                                          ? AppColors.white
+                                                          : AppColors.darkGrey,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    state.chakraBodyListModel
+                                                        .start
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      color: hoverIndex ==
+                                                                  index ||
+                                                              selectedIndex ==
+                                                                  index
+                                                          ? AppColors.white
+                                                          : AppColors.darkGrey,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            color: hoverIndex == index ||
+                                                    selectedIndex == index
+                                                ? AppColors.white
+                                                : AppColors.seeGreen,
+                                            height: size.height * 0.05,
+                                            width: 60,
+                                            child: Center(
+                                              child: Text(
+                                                state.chakraBodyListModel
+                                                    .data![index].ranking
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 30,
+                                                  color: hoverIndex == index ||
+                                                          selectedIndex == index
+                                                      ? AppColors.seeGreen
+                                                      : AppColors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ]),
                                   ),
                                 ),
-                              );
-                            }),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.02,
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Container(
+                            //height: size.height * 0.7,
+                            width: size.width,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: AppColors.lightGrey.withOpacity(0.78),
+                                image: const DecorationImage(
+                                    alignment: Alignment.topCenter,
+                                    image: AssetImage(
+                                        'assets/images/chakra_body.png'),
+                                    fit: BoxFit.cover)),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: AppSizes.dimen24,
+                                      left: AppSizes.dimen24,
+                                      right: AppSizes.dimen24),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Card(
+                                        color: AppColors.seeGreen,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children:  [
+                                              const Text(
+                                                AppStrings.sinceText,
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: AppColors.white),
+                                              ),
+                                              Text(
+                                                state.chakraBodyListModel.start.toString(),
+                                                style:const TextStyle(
+                                                    fontSize: 20,
+                                                    color: AppColors.white),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 50,
+                                      ),
+                                      Card(
+                                        color: AppColors.orange,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Row(
+                                            children:  [
+                                              const Text(
+                                                AppStrings.chakraEndText,
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: AppColors.black),
+                                              ),
+                                              Text(
+                                               state.chakraBodyListModel.end.toString(),
+                                                style:const TextStyle(
+                                                    fontSize: 20,
+                                                    color: AppColors.black),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 60,
+                                ),
+                                Center(
+                                  child: ListView(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    children: [
+                                      const Center(
+                                          child: Text(
+                                        "🏆",
+                                        style: TextStyle(
+                                          //fontFamily: 'Oswald',
+                                          fontSize: 100,
+                                        ),
+                                      )),
+                                       Center(
+                                          child: Text(
+                                        "${state.chakraBodyListModel.data![selectedIndex].ranking.toString()}'st",
+                                        style:const TextStyle(
+                                            fontFamily: 'Oswald',
+                                            fontSize: 30,
+                                            color: AppColors.white,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Stack(
+                                        alignment: AlignmentDirectional.center,
+                                        children: [
+                                          Column(
+                                            children: const [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                    AppColors.white,
+                                                radius: 70,
+                                                child: CircleAvatar(
+                                                  backgroundImage: AssetImage(
+                                                    'assets/images/rules&scoring_banner.png',
+                                                  ),
+                                                  radius: 65,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 30,
+                                              ),
+                                            ],
+                                          ),
+                                          Positioned(
+                                              bottom: 0,
+                                              right: 50,
+                                              top: 100,
+                                              left: 50,
+                                              child: Image.asset(
+                                                'assets/images/chakra.png',
+                                                fit: BoxFit.contain,
+                                                height: 100,
+                                                width: 100,
+                                              )
+                                              // Transform.scale(
+                                              //   //scale: 0.9,
+                                              //   child:
+                                              // ),
+                                              ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Center(
+                                          child: Text(
+                                        state.chakraBodyListModel.data![selectedIndex].userUsername.toString(),
+                                        style: const TextStyle(
+                                            fontFamily: 'Oswald',
+                                            fontSize: 40,
+                                            color: AppColors.white,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      const SizedBox(
+                                        height: 50,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.width * 0.02,
+                          ),
+                          Container(
+                            //height: size.height * 0.5,
+                            width: size.width,
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: ListView.builder(
+                                itemCount: 5,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.all(AppSizes.dimen16),
+                                    child: Card(
+                                      color: AppColors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(
+                                            AppSizes.dimen16),
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundColor:
+                                                  AppColors.lightGrey,
+                                              radius: 40,
+                                              child: CircleAvatar(
+                                                radius: 35,
+                                                backgroundColor:
+                                                    AppColors.white,
+                                                child: Image.asset(
+                                                  'assets/icons/doller_icon.png',
+                                                  fit: BoxFit.cover,
+                                                  height: 45,
+                                                  width: 45,
+                                                ),
+                                              ),
+                                            ),
+                                            const Text(
+                                              AppStrings.cashWonText,
+                                              style: TextStyle(
+                                                  fontFamily: 'Oswald',
+                                                  fontSize: 30,
+                                                  color: AppColors.black,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                );
+              }
+              return Container();
+            },
           )),
     );
   }

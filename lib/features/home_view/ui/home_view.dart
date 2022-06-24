@@ -645,8 +645,7 @@ Widget _downloadBloc(context) {
               child: Image.asset(
                 'assets/images/mobile.png',
                 fit: BoxFit.contain,
-                height: 180,
-                width: 130,
+                height: size.width*0.04,
               ),
             ),
           ],

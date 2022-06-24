@@ -4,8 +4,8 @@ import '../model/chakra_body_list_model.dart';
 import 'package:http/http.dart' as http;
 
 class ChakraBodyListRepository {
-  Future<ChakraBodyListModel> getData() async {
-    final response = await http.Client().get(Uri.parse(FanexURLs.chakraList));
+  Future<ChakraBodyListModel> getData(String id) async {
+    final response = await http.Client().get(Uri.parse('${FanexURLs.chakraList}$id'));
     if (response.statusCode == 200) {
       print(response.body);
       return ChakraBodyListModel.fromJson(
