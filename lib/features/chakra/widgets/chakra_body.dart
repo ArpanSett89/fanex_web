@@ -1008,5 +1008,18 @@ Widget _buildListTiles(context, List<String> iconTitle, List<String> titleText,
       titleText[index],
       style: Theme.of(context).textTheme.headline5,
     ),
+    subtitle: index==2?Column(
+      //mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children:  [
+         Text(AppStrings.excludesContestsText,style: Theme.of(context).textTheme.bodyText1,),
+        // const SizedBox(height: AppSizes.dimen16,),
+        const LinearProgressIndicator(
+          color: AppColors.orange,
+          minHeight: AppSizes.dimen12,
+          value: 0.5,
+        )
+      ],
+    ):Container(),
   );
 }
