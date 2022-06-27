@@ -27,10 +27,6 @@ class AppStrings {
   static const String coinsWonText = "Total Coins won in Contests";
   static const String coinsWon = "0";
   static const String coinsEarnedText = "Coins earned since inception";
-  static const String coinsEarned = "0";
-  static const String addEmailText = "Add Email";
-  static const String favouritePlayerText = "Favourite Player";
-  static const String pushNotificationsText = "Push Notifications";
   static const String prizeAmountText = "Prize Amount";
   static const String prizeAmount = "500";
   static const String dateText = "11-02-2021";
@@ -38,6 +34,9 @@ class AppStrings {
   static const String chakraStartText = "Chakra starts on:";
   static const String chakraEndText = "Chakra ends on :";
   static const String friendsFollowingText = "Number of friends following the User";
-  static const String averageFinishingPositionText = "Average finishing position in completed Contests\n(excludes any User created Contests)";
+  static const String averagePercentageText = "Average percentage ranking in Contests";
+  static const String excludesContestsText = "Excludes Contests created by the User or Friends";
+  static const String coinEarnedText = "Coins earned in Promotions";
+  static const String numberOfFriendsFollowingText = "Number or Friends following the User";
 
 }

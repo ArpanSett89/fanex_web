@@ -16,13 +16,21 @@ class ChakraBody extends StatefulWidget {
 class _ChakraBodyState extends State<ChakraBody> {
   int hoverIndex = 0;
   int selectedIndex = 0;
-List<String>iconTitle=[
-  'assets/icons/doller_icon.png',
-  'assets/icons/coin1_icon.png',
-  'assets/icons/parsentage_icon.png',
-  'assets/icons/chart_icon.png',
-  'assets/icons/friend_icon.png',
-];
+  List<String> iconTitle = [
+    'assets/icons/doller_icon.png',
+    'assets/icons/coin1_icon.png',
+    'assets/icons/parsentage_icon.png',
+    'assets/icons/chart_icon.png',
+    'assets/icons/friend_icon.png',
+  ];
+  List<String> titleText = [
+    AppStrings.cashWonText,
+    AppStrings.coinsWonText,
+    AppStrings.averagePercentageText,
+    AppStrings.coinEarnedText,
+    AppStrings.numberOfFriendsFollowingText,
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -289,7 +297,7 @@ List<String>iconTitle=[
                                   AppStrings.cashWonText,
                                   style: TextStyle(
                                       fontFamily: 'Oswald',
-                                      fontSize:AppSizes.headline2,
+                                      fontSize: AppSizes.headline2,
                                       color: AppColors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -463,7 +471,7 @@ List<String>iconTitle=[
                                   "1'st",
                                   style: TextStyle(
                                       fontFamily: 'Oswald',
-                                      fontSize:AppSizes.headline2,
+                                      fontSize: AppSizes.headline2,
                                       color: AppColors.white,
                                       fontWeight: FontWeight.bold),
                                 )),
@@ -592,7 +600,10 @@ List<String>iconTitle=[
                 return Container(
                     height: size.height,
                     width: size.width,
-                    child: const Center(child: CircularProgressIndicator(color: AppColors.orange,)));
+                    child: const Center(
+                        child: CircularProgressIndicator(
+                      color: AppColors.orange,
+                    )));
               }
               if (state is BodyListLoaded) {
                 return Row(
@@ -677,11 +688,12 @@ List<String>iconTitle=[
                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              state.chakraBodyListModel
-                                                  .data![index].userUsername
-                                                  .toString(),
-                                              style: Theme.of(context).textTheme.headline6
-                                            ),
+                                                state.chakraBodyListModel
+                                                    .data![index].userUsername
+                                                    .toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6),
                                             const SizedBox(
                                               height: AppSizes.dimen16,
                                             ),
@@ -778,26 +790,27 @@ List<String>iconTitle=[
                                       Card(
                                         color: AppColors.seeGreen,
                                         child: Padding(
-                                          padding: const EdgeInsets.all(AppSizes.dimen12),
+                                          padding: const EdgeInsets.all(
+                                              AppSizes.dimen12),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                               const Text(
-                                                AppStrings.sinceText,
-                                                style:TextStyle(
-                                                    fontSize: AppSizes.button,
-                                                    color: AppColors.white,
-                                                    fontWeight: FontWeight.w400
-                                                )),
+                                              const Text(AppStrings.sinceText,
+                                                  style: TextStyle(
+                                                      fontSize: AppSizes.button,
+                                                      color: AppColors.white,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
                                               Text(
-                                                state.chakraBodyListModel.start
-                                                    .toString(),
+                                                  state
+                                                      .chakraBodyListModel.start
+                                                      .toString(),
                                                   style: const TextStyle(
-                                                    fontSize: AppSizes.button,
-                                                    color: AppColors.white,
-                                                    fontWeight: FontWeight.w400
-                                                  )),
+                                                      fontSize: AppSizes.button,
+                                                      color: AppColors.white,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
                                             ],
                                           ),
                                         ),
@@ -808,25 +821,25 @@ List<String>iconTitle=[
                                       Card(
                                         color: AppColors.orange,
                                         child: Padding(
-                                          padding: const EdgeInsets.all(AppSizes.dimen12),
+                                          padding: const EdgeInsets.all(
+                                              AppSizes.dimen12),
                                           child: Row(
                                             children: [
-                                               const Text(
-                                                AppStrings.chakraEndText,
+                                              const Text(
+                                                  AppStrings.chakraEndText,
                                                   style: TextStyle(
                                                       fontSize: AppSizes.button,
                                                       color: AppColors.white,
-                                                      fontWeight: FontWeight.w400
-                                                  )
-                                              ),
+                                                      fontWeight:
+                                                          FontWeight.w400)),
                                               Text(
                                                 state.chakraBodyListModel.end
                                                     .toString(),
                                                 style: const TextStyle(
                                                     fontSize: AppSizes.button,
                                                     color: AppColors.white,
-                                                    fontWeight: FontWeight.w400
-                                                ),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               ),
                                             ],
                                           ),
@@ -883,15 +896,14 @@ List<String>iconTitle=[
                                           Positioned(
                                               bottom: 0,
                                               right: AppSizes.dimen50,
-                                              top: AppSizes.dimen50*2,
+                                              top: AppSizes.dimen50 * 2,
                                               left: AppSizes.dimen50,
                                               child: Image.asset(
                                                 'assets/images/chakra.png',
                                                 fit: BoxFit.contain,
-                                                height: AppSizes.dimen50*2,
-                                                width: AppSizes.dimen50*2,
-                                              )
-                                              ),
+                                                height: AppSizes.dimen50 * 2,
+                                                width: AppSizes.dimen50 * 2,
+                                              )),
                                         ],
                                       ),
                                       const SizedBox(
@@ -938,21 +950,13 @@ List<String>iconTitle=[
                                       child: Padding(
                                           padding: const EdgeInsets.all(
                                               AppSizes.dimen16),
-                                          child: ListTile(
-                                              leading:  CircleAvatar(
-                                                radius: 50,
-                                                backgroundColor: AppColors.shimmer,
-                                                child: Image.asset(
-                                                    iconTitle[index],height: AppSizes.dimen30,width: AppSizes.dimen30,
-                                                fit: BoxFit.contain,),
-                                              ),
-                                              title: Text(
-                                                AppStrings.cashWonText,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5,
-                                              ))
-                                          ),
+                                          child: _buildListTiles(
+                                              context,
+                                              iconTitle,
+                                              titleText,
+                                              index,
+                                              state,
+                                              selectedIndex)),
                                     ),
                                   );
                                 }),
@@ -984,5 +988,25 @@ Widget _profileContainer(
     height: height,
     width: width,
     child: Container(),
+  );
+}
+
+Widget _buildListTiles(context, List<String> iconTitle, List<String> titleText,
+    int index, BodyListLoaded state, int selectedIndex) {
+  return ListTile(
+    leading: CircleAvatar(
+      radius: AppSizes.dimen50,
+      backgroundColor: AppColors.shimmer,
+      child: Image.asset(
+        iconTitle[index],
+        height: AppSizes.dimen30,
+        width: AppSizes.dimen30,
+        fit: BoxFit.contain,
+      ),
+    ),
+    title: Text(
+      titleText[index],
+      style: Theme.of(context).textTheme.headline5,
+    ),
   );
 }
