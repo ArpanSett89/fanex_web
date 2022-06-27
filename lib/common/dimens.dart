@@ -14,7 +14,10 @@ class AppSizes {
   static const double dimen30 = 30.0;
   static const double dimen127 = 127.0;
   static const double dimen55 = 55.0;
+  static const double dimen50 = 50.0;
+  static const double dimen40 = 40.0;
   static const double dimen60 = 60.0;
+  static const double dimen70 = 70.0;
   static const double dimen24 = 24.0;
   static const double dimen16 = 16.0;
   static const double dimen12 = 12.0;
