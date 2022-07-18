@@ -9,51 +9,35 @@ class BodyWidgets extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size =MediaQuery.of(context).size;
     return Responsive(
-        mobile: ListView(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          children: [
-            _leftBloc(context),
-            _rightBloc(context),
-          ],
-        ),
-        tablet: Container(
-          height: size.height * 0.47,
-          child: ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
+        mobile: Padding(
+          padding: const EdgeInsets.only(top: AppSizes.dimen60),
+          child: Column(
             children: [
               _leftBloc(context),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.20,
-              ),
+              const SizedBox(height: AppSizes.dimen16,),
               _rightBloc(context),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.05,
-              ),
+            ],
+          ),
+        ),
+        tablet: Container(
+          margin:  EdgeInsets.only(top: AppSizes.dimen50,right: size.width*0.08,left: size.width*0.08,),
+          child: Row(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _leftBloc(context),
+              _rightBloc(context),
             ],
           ),
         ),
         desktop: Container(
-          height: size.height * 0.47,
-          child: ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
+          margin:  EdgeInsets.only(top: AppSizes.dimen60,right: size.width*0.08,left: size.width*0.08,),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _leftBloc(context),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.20,
-              ),
               _rightBloc(context),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.05,
-              ),
             ],
           ),
         ));
@@ -69,6 +53,7 @@ Widget _leftBloc(context) {
             'assets/images/fanex_logo.png',
             width: MediaQuery.of(context).size.width * 0.35,
             fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
           ),
           const SizedBox(
             height: 15,
@@ -103,7 +88,7 @@ Widget _leftBloc(context) {
         ],
       ),
       tablet: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
             'assets/images/fanex_logo.png',
@@ -111,7 +96,7 @@ Widget _leftBloc(context) {
             fit: BoxFit.cover,
           ),
           const SizedBox(
-            height: 15,
+            height: AppSizes.dimen16,
           ),
           Text('A SIMPLER WAY TO PLAY',
               style: TextStyle(
@@ -149,9 +134,10 @@ Widget _leftBloc(context) {
             'assets/images/fanex_logo.png',
             width: MediaQuery.of(context).size.width * 0.25,
             fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
           ),
           const SizedBox(
-            height: 15,
+            height: AppSizes.dimen16,
           ),
           Text('A SIMPLER WAY TO PLAY',
               style: TextStyle(
@@ -194,7 +180,7 @@ Widget _rightBloc(context) {
             fit: BoxFit.cover,
           ),
           const SizedBox(
-            height: 10,
+            height: AppSizes.dimen16,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -215,7 +201,7 @@ Widget _rightBloc(context) {
             ],
           ),
           const SizedBox(
-            height: 15,
+            height: AppSizes.dimen16,
           ),
           const Text(
             'Only available on Android… iOS is coming soon!',
@@ -266,7 +252,7 @@ Widget _rightBloc(context) {
                 fit: BoxFit.fill,
               ),
               const SizedBox(
-                width: 10,
+                width: AppSizes.dimen16,
               ),
               Image.asset(
                 'assets/images/i_phone_download_image.png',
@@ -276,7 +262,7 @@ Widget _rightBloc(context) {
             ],
           ),
           const SizedBox(
-            height: 15,
+            height: AppSizes.dimen16,
           ),
           const Text(
             'Only available on Android… iOS is coming soon!',

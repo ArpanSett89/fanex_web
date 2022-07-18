@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import '../../../common/common.dart';
 import '../../../common/widgets/footer/footer_ui.dart';
 import '../../../common/widgets/header/header_ui.dart';
@@ -34,15 +35,6 @@ class _RulesRegulationViewState extends State<RulesRegulationView> {
     AppStrings.cardTitle5,
     AppStrings.cardTitle6,
     AppStrings.cardTitle7,
-
-  ];
-  List<String> tabTitle = [
-    AppStrings.tabText1,
-    AppStrings.tabText2,
-    AppStrings.tabText3,
-    AppStrings.tabText4,
-    AppStrings.tabText5,
-    AppStrings.tabText6,
   ];
   int hoverIndex = 0;
   int selectedIndex = 0;
@@ -90,40 +82,17 @@ class _RulesRegulationViewState extends State<RulesRegulationView> {
             shrinkWrap: true,
             children: [
               Header(),
-              Responsive(
-                  mobile: SizedBox(
-                    height: size.height * 0.2,
-                  ),
-                  tablet: SizedBox(
-                    height: size.height * 0.43,
-                  ),
-                  desktop: SizedBox(
-                    height: size.height * 0.43,
-                  )),
+              SizedBox(
+                height: size.width * 0.17,
+              ),
               Center(
-                  child: Responsive(
-                    mobile: Text(
-                      AppStrings.tabText3,
-                      style: TextStyle(
-                          fontSize: size.width * 0.1,
-                          color: AppColors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    tablet: Text(
-                      AppStrings.tabText3,
-                      style: TextStyle(
-                          fontSize: size.width * 0.045,
-                          color: AppColors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    desktop: Text(
-                      AppStrings.tabText3,
-                      style: TextStyle(
-                          fontSize: size.width * 0.045,
-                          color: AppColors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
+                  child:Text(
+                    AppStrings.tabText3,
+                    style: TextStyle(
+                        fontSize:size.width>720?AppSizes.dimen60:AppSizes.dimen40,
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold),
+                  ),),
               SizedBox(
                 height: size.height * 0.1,
               ),
@@ -343,220 +312,97 @@ class _RulesRegulationViewState extends State<RulesRegulationView> {
                 height: size.width * 0.035,
               ),
               Center(
-                  child: Responsive(
-                      mobile: Text(
-                        title[selectedIndex],
-                        style: TextStyle(
-                            fontSize: size.width * 0.08,
-                            fontFamily: 'Oswald',
-                            color: AppColors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      tablet: Text(
-                        title[selectedIndex],
-                        style: TextStyle(
-                            fontSize: size.width * 0.035,
-                            fontFamily: 'Oswald',
-                            color: AppColors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      desktop: Text(
-                        title[selectedIndex],
-                        style: TextStyle(
-                            fontSize: size.width * 0.035,
-                            fontFamily: 'Oswald',
-                            color: AppColors.black,
-                            fontWeight: FontWeight.bold),
-                      ))),
+                child:Text(
+                  title[selectedIndex],
+                  style: TextStyle(
+                      fontSize:size.width>720?AppSizes.dimen60:AppSizes.dimen40,
+                      fontFamily: 'Oswald',
+                      color: AppColors.black,
+                      fontWeight: FontWeight.bold),
+                ),),
               SizedBox(
                 height: size.width * 0.035,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-                child: InkWell(
-                  onTap: () {
-                    if (kDebugMode) {
-                      print(title[selectedIndex]);
-                    }
-                    setState(() {
-                      onTap = !onTap;
-                    });
-                  },
-                  child: Responsive(
-                      mobile: Column(
-                        children: [
-                          Card(
-                              color: onTap ? AppColors.seeGreen : AppColors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundColor: onTap
-                                              ? AppColors.white
-                                              : AppColors.seeGreen,
-                                          radius: 20,
-                                          child: CircleAvatar(
-                                            radius: 6,
-                                            backgroundColor: onTap
-                                                ? AppColors.seeGreen
-                                                : AppColors.white,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 60,
-                                        ),
-                                        Text(title[selectedIndex],
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04,
-                                                fontFamily: 'Oswald',
-                                                color: AppColors.black
-                                                    .withOpacity(0.8),
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                    Icon(
-                                      onTap ? EvaIcons.minus : EvaIcons.plus,
-                                      size: 30,
-                                      color: onTap
-                                          ? AppColors.white
-                                          : AppColors.seeGreen,
-                                    )
-                                  ],
-                                ),
-                              )),
-                          Visibility(
-                            visible: onTap?true:false,
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              color: AppColors.white,
-                              height:200,
-                              width: size.width,
-                            ),
-                          )
-                        ],
-                      ),
-                      tablet: Column(
-                        children: [
-                          Card(
-                              color: onTap ? AppColors.seeGreen : AppColors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundColor: onTap
-                                              ? AppColors.white
-                                              : AppColors.seeGreen,
-                                          radius: 25,
-                                          child: CircleAvatar(
-                                            radius: 11,
-                                            backgroundColor: onTap
-                                                ? AppColors.seeGreen
-                                                : AppColors.white,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 60,
-                                        ),
-                                        Text(title[selectedIndex],
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.015,
-                                                fontFamily: 'Oswald',
-                                                color: AppColors.black
-                                                    .withOpacity(0.8),
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                    Icon(
-                                      onTap ? EvaIcons.minus : EvaIcons.plus,
-                                      size: 40,
-                                      color: onTap
-                                          ? AppColors.white
-                                          : AppColors.seeGreen,
-                                    )
-                                  ],
-                                ),
-                              )),
-                          Visibility(
-                            visible: onTap?true:false,
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              color: AppColors.white,
-                              height:200,
-                              width: size.width,
+              InkWell(
+                onTap: () {
+                  if (kDebugMode) {
+                    print(title[selectedIndex]);
+                  }
+                  setState(() {
+                    onTap = !onTap;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                        padding:  const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(AppSizes.cardCornerRadius)),
+                          color:
+                          onTap ? AppColors.seeGreen : AppColors.white,
+                        ),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: CircleAvatar(
+                            backgroundColor: onTap
+                                ? AppColors.white
+                                : AppColors.seeGreen,
+                            radius:size.width>720?25:20,
+                            child: CircleAvatar(
+                              radius:size.width>720?11:6,
+                              backgroundColor: onTap
+                                  ? AppColors.seeGreen
+                                  : AppColors.white,
                             ),
                           ),
-                        ],
-                      ),
-                      desktop: Column(
-                        children: [
-                          Card(
-                              color: onTap ? AppColors.seeGreen : AppColors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundColor: onTap
-                                              ? AppColors.white
-                                              : AppColors.seeGreen,
-                                          radius: 25,
-                                          child: CircleAvatar(
-                                            radius: 11,
-                                            backgroundColor: onTap
-                                                ? AppColors.seeGreen
-                                                : AppColors.white,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 60,
-                                        ),
-                                        Text(title[selectedIndex],
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.015,
-                                                fontFamily: 'Oswald',
-                                                color: AppColors.black
-                                                    .withOpacity(0.8),
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                    Icon(
-                                      onTap ? EvaIcons.minus : EvaIcons.plus,
-                                      size: 40,
-                                      color: onTap
-                                          ? AppColors.white
-                                          : AppColors.seeGreen,
-                                    )
-                                  ],
-                                ),
-                              )),
-                          Visibility(
-                            visible: onTap?true:false,
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              color: AppColors.white,
-                              height:200,
-                              width: size.width,
-                            ),
+                          title:Text(title[selectedIndex],
+                              style: TextStyle(
+                                  fontSize: AppSizes.headline5,
+                                  fontFamily: 'Oswald',
+                                  color: AppColors.black
+                                      .withOpacity(0.8),
+                                  fontWeight: FontWeight.bold)),
+                          trailing:Icon(
+                            onTap ? EvaIcons.minus : EvaIcons.plus,
+                            size: 40,
+                            color: onTap
+                                ? AppColors.white
+                                : AppColors.seeGreen,
                           ),
-                        ],
-                      )),
+                        )),
+                    Visibility(
+                      visible: onTap ? true : false,
+                      child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                          padding: const EdgeInsets.all(AppSizes.dimen16),
+                          color: AppColors.white,
+                          width: size.width,
+                          child: Html(
+                            data: r"""<div><ul>
+	<li>
+		<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;">FanEx is the newest and simplest way to play daily fantasy for fans of cricket in India. With less than 5 taps on a mobile device, a fan can enter a contest to play for free with a chance to win real cash prizes.&nbsp;No need to find a combination of 11 players within a set limit of credits.&nbsp;Simply pick the cricket player that will have the best performance in a given statistical category.</span></span></li>
+	<li>
+		<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;">Choose the cricket player that will have the best performance in a given statistical category.&nbsp; Contests may have up to 5 statistical categories.&nbsp;&nbsp;Users may play in public “FANEX” contests or private “USER” created contests with friends.&nbsp;</span></span></li>
+	<li>
+		<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;">Sign-up to play in special contests for beginners with free FanEx Coins granted upon sign-up until you become comfortable with this unique contest structure.</span></span></li>
+</ul>
+<p>
+	<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#f00;"><strong>&nbsp;×&nbsp;</strong></span> No need to pick your favorite 11 cricketers, within an allocated budget, from both teams playing in an upcoming match to form your fantasy team.</span></span></p>
+<p>
+	<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: rgb(255, 0, 0);"><strong>×</strong></span><span new="" times=""><span style="color: rgb(255, 0, 0);"><strong>&nbsp;</strong></span></span>&nbsp;No need to spend hours researching or reading predictions by fantasy experts on the upcoming match.</span></span></p>
+<p>
+	<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;"><strong>Playing daily fantasy cricket on The Fan Exchange is simple:</strong></span></span></p>
+<p>
+	<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;"><span style="color:#008000;">►&nbsp;</span>Pick your favorite real-life cricket players (no salary cap or choice of captains)</span></span></p>
+<p>
+	<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;"><span style="color:#008000;">►</span>&nbsp;Challenge friends or compete against other FanEx users</span></span></p>
+<p>
+	<span style="font-size:16px;"><span style="font-family:tahoma,geneva,sans-serif;"><span style="color:#008000;">►</span>&nbsp;Follow along with your live score as your players compete in real-life matches</span></span></p></div>""",
+                          )),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(

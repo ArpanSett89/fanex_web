@@ -3,6 +3,7 @@ import 'package:fanex_web/common/widgets/header/header_ui.dart';
 import 'package:fanex_web/features/chakra/bloc/chakra_body_list_bloc/body_list_bloc.dart';
 import 'package:fanex_web/features/chakra/bloc/chakra_end_list_bloc/end_list_bloc.dart';
 import 'package:fanex_web/features/chakra/model/chakra_end_date_list_response_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/widgets/footer/footer_ui.dart';
@@ -14,22 +15,8 @@ class ChakraView extends StatefulWidget {
   @override
   State<ChakraView> createState() => _ChakraViewState();
 }
-
 class _ChakraViewState extends State<ChakraView> {
-  List<String> tabTitle = [
-    AppStrings.tabText1,
-    AppStrings.tabText2,
-    AppStrings.tabText3,
-    AppStrings.tabText4,
-    AppStrings.tabText5,
-    AppStrings.tabText6,
-  ];
-  String dropdownValue = '';
   int dropdownValueIndex = 0;
-  int hoverIndex = 0;
-  int selectedIndex = 0;
-  List<String> date = [];
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -126,8 +113,10 @@ class _ChakraViewState extends State<ChakraView> {
                                     dropdownValueIndex = state
                                         .chakraEndDateListResponseModel.data!
                                         .indexOf(newValue!);
-                                    print(
-                                        "dropdownValueIndex $dropdownValueIndex");
+                                    if (kDebugMode) {
+                                      print(
+                                        "dropdownValueIndex________ $dropdownValueIndex");
+                                    }
                                   });
                                   BlocProvider.of<BodyListBloc>(context).add(
                                       GetBodyList(state
@@ -150,9 +139,7 @@ class _ChakraViewState extends State<ChakraView> {
                 ),
                 // child:
               ),
-              ChakraBody(
-                tabTitle: tabTitle,
-              ),
+              const ChakraBody(),
               SizedBox(
                 height: size.height * 0.02,
               ),

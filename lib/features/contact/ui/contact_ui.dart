@@ -1,4 +1,3 @@
-import 'package:fanex_web/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import '../../../common/common.dart';
@@ -24,21 +23,15 @@ class _ContactViewState extends State<ContactView> {
     'EMAIL',
     'SOCIAL ACCOUNT',
   ];
-  List<String> tabTitle = [
-    AppStrings.tabText1,
-    AppStrings.tabText2,
-    AppStrings.tabText3,
-    AppStrings.tabText4,
-    AppStrings.tabText5,
-    AppStrings.tabText6,
-  ];
-
   getIndex(int index) {
     if (index == 0) {
-      return Text(
-          'FAN EXCHANGE PRIVATE LIMITED. 6417 Sector C. Pocket 6 Vasant Kunj, NEW DELHI 110070',
-          style: Theme.of(context).textTheme.bodyText1,
-          textAlign: TextAlign.center);
+      return Padding(
+        padding: const EdgeInsets.all(AppSizes.dimen12),
+        child: Text(
+            'FAN EXCHANGE PRIVATE LIMITED. 6417 Sector C. Pocket 6 Vasant Kunj, NEW DELHI 110070',
+            style: Theme.of(context).textTheme.bodyText1,
+            textAlign: TextAlign.center),
+      );
     } else if (index == 1) {
       return TextButton(
           onPressed: () {
@@ -142,255 +135,78 @@ class _ContactViewState extends State<ContactView> {
             children: [
               Header(),
               SizedBox(
-                height: size.height * 0.30,
+                height: size.width * 0.17,
               ),
-              Responsive(mobile: Center(
-                child: Text(
-                  'CONTACT',
+              Center(
+                child:Text(
+                  AppStrings.tabText6,
                   style: TextStyle(
-                      fontSize: size.width * 0.08,
+                      fontSize:size.width>720?AppSizes.dimen60:AppSizes.dimen40,
                       color: AppColors.white,
                       fontWeight: FontWeight.bold),
-                ),
-              ), tablet: Center(
-                child: Text(
-                  'CONTACT',
-                  style: TextStyle(
-                      fontSize: size.width * 0.045,
-                      color: AppColors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-              ), desktop: Center(
-                child: Text(
-                  'CONTACT',
-                  style: TextStyle(
-                      fontSize: size.width * 0.045,
-                      color: AppColors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),),
+                ),),
               SizedBox(
                 height: size.width * 0.025,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 125),
-                child: Responsive(mobile: SizedBox(
-                  // color: AppColors.black,
-                  width: size.width,
-                  child: Center(
-                    child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 3,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          // height: 250,
-                          width: 250,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 15),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        imageTitle[index],
-                                      ),
-                                      fit: BoxFit.cover,
+                padding:EdgeInsets.symmetric(horizontal: size.width*0.05, vertical: size.width * 0.1),
+                child: GridView.builder(
+                  itemCount: 3,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      padding:  const EdgeInsets.all(AppSizes.dimen30),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      imageTitle[index],
                                     ),
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        offset: const Offset(
-                                          1.0,
-                                          1.0,
-                                        ),
-                                        color: Colors.black.withOpacity(0.1),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                      )
-                                    ],
+                                    fit: BoxFit.contain,
                                   ),
-                                  height: 180,
-                                  width: 180,
-                                ),
-                                const SizedBox(height: 15),
-                                Text(
-                                  title[index],
-                                  style: const TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: 20,
-                                      color: AppColors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: getIndex(index),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 30,
-                        );
-                      },
-                    ),
-                  ),
-                ), tablet: SizedBox(
-                  // color: AppColors.black,
-                  width: size.width,
-                  height: size.height * 0.50,
-                  child: Center(
-                    child: ListView.separated(
-                      itemCount: 3,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          // height: 250,
-                          width: 250,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 15),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        imageTitle[index],
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: const Offset(
+                                        1.0,
+                                        1.0,
                                       ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        offset: const Offset(
-                                          1.0,
-                                          1.0,
-                                        ),
-                                        color: Colors.black.withOpacity(0.1),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                      )
-                                    ],
-                                  ),
-                                  height: 180,
-                                  width: 180,
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                    )
+                                  ],
                                 ),
-                                const SizedBox(height: 15),
-                                Text(
-                                  title[index],
-                                  style: const TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: 20,
-                                      color: AppColors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: getIndex(index),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          width: 30,
-                        );
-                      },
-                    ),
-                  ),
-                ), desktop: SizedBox(
-                  // color: AppColors.black,
-                  width: size.width,
-                  height: size.height * 0.50,
-                  child: Center(
-                    child: ListView.separated(
-                      itemCount: 3,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          // height: 250,
-                          width: 250,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 15),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        imageTitle[index],
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        offset: const Offset(
-                                          1.0,
-                                          1.0,
-                                        ),
-                                        color: Colors.black.withOpacity(0.1),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                      )
-                                    ],
-                                  ),
-                                  height: 180,
-                                  width: 180,
-                                ),
-                                const SizedBox(height: 15),
-                                Text(
-                                  title[index],
-                                  style: const TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: 20,
-                                      color: AppColors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: getIndex(index),
-                                ),
-                              ],
+                            const SizedBox(height: 15),
+                            Text(
+                              title[index],
+                              style: const TextStyle(
+                                  fontFamily: 'Oswald',
+                                  fontSize: 20,
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          width: 30,
-                        );
-                      },
-                    ),
-                  ),
-                )),
+                            const SizedBox(height: 15),
+                            getIndex(index)
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount:size.width>720?3:1, crossAxisSpacing: AppSizes.dimen30,mainAxisSpacing: AppSizes.dimen30),
+                ),
               ),
               SizedBox(
                 height: size.height * 0.2,

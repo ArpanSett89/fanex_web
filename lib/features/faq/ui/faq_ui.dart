@@ -12,16 +12,7 @@ class FAQView extends StatefulWidget {
   @override
   State<FAQView> createState() => _FAQViewState();
 }
-
 class _FAQViewState extends State<FAQView> {
-  List<String> tabTitle = [
-    AppStrings.tabText1,
-    AppStrings.tabText2,
-    AppStrings.tabText3,
-    AppStrings.tabText4,
-    AppStrings.tabText5,
-    AppStrings.tabText6,
-  ];
   List<String> title = [
     'IS DAILY FANTASY CRICKET LEGAL ON THE FAN EXCHANGE (“FANEX”)?',
     'ARE DAILY FANTASY SPORTS BANNED IN ANY STATES OF INDIA?',
@@ -143,356 +134,157 @@ class _FAQViewState extends State<FAQView> {
                 desktop: SizedBox(
                   height: size.height * 0.28,
                 )),
-            Padding(
-              padding: EdgeInsets.all(size.width * 0.05),
-              child: Responsive(
-                  mobile: ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            MouseRegion(
-                              onEnter: (event) {
-                                setState(() {
-                                  hoverIndex = index;
-                                });
-                              },
-                              onExit: (event) {
-                                setState(() {
-                                  hoverIndex = 20;
-                                });
-                              },
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (onTap == index) {
-                                      onTap = 20;
-                                    } else {
-                                      onTap = index;
-                                    }
-                                    if (tapToVisible == index) {
-                                      tapToVisible = 20;
-                                    } else {
-                                      tapToVisible = index;
-                                    }
-                                  });
-                                },
-                                child: Card(
-                                    color: onTap == index || hoverIndex == index
+            ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: [
+                      MouseRegion(
+                        onEnter: (event) {
+                          setState(() {
+                            hoverIndex = index;
+                          });
+                        },
+                        onExit: (event) {
+                          setState(() {
+                            hoverIndex = 20;
+                          });
+                        },
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (onTap == index) {
+                                onTap = 20;
+                              } else {
+                                onTap = index;
+                              }
+                              if (tapToVisible == index) {
+                                tapToVisible = 20;
+                              } else {
+                                tapToVisible = index;
+                              }
+                            });
+                          },
+                          child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                              padding:  const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10.0),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(AppSizes.cardCornerRadius)),
+                                color: onTap == index || hoverIndex == index
+                                    ? AppColors.seeGreen
+                                    : AppColors.white,
+                              ),
+                              child: ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                leading: CircleAvatar(
+                                  backgroundColor: onTap ==
+                                      index ||
+                                      hoverIndex == index
+                                      ? AppColors.white
+                                      : AppColors.seeGreen,
+                                  radius:size.width>720?25:20,
+                                  child: CircleAvatar(
+                                    radius:size.width>720?11:6,
+                                    backgroundColor: onTap ==
+                                        index ||
+                                        hoverIndex == index
                                         ? AppColors.seeGreen
                                         : AppColors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0, vertical: 10.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                CircleAvatar(
-                                                  backgroundColor: onTap ==
-                                                              index ||
-                                                          hoverIndex == index
-                                                      ? AppColors.white
-                                                      : AppColors.seeGreen,
-                                                  radius: 20,
-                                                  child: CircleAvatar(
-                                                    radius: 6,
-                                                    backgroundColor: onTap ==
-                                                                index ||
-                                                            hoverIndex == index
-                                                        ? AppColors.seeGreen
-                                                        : AppColors.white,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Flexible(
-                                                  child: Text(
-                                                    title[index],
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            size.width * 0.027,
-                                                        fontFamily: 'Oswald',
-                                                        color: AppColors.black
-                                                            .withOpacity(0.8),
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    maxLines: 2,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Icon(
-                                            onTap == index
-                                                ? EvaIcons.minus
-                                                : EvaIcons.plus,
-                                            size: 40,
-                                            color: onTap == index ||
-                                                    hoverIndex == index
-                                                ? AppColors.white
-                                                : AppColors.seeGreen,
-                                          )
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                            ),
-                            Visibility(
-                              visible: tapToVisible == index ? true : false,
-                              child: Container(
-                                color: AppColors.white,
-                                height: 200,
-                                width: size.width,
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 20,
-                        );
-                      },
-                      itemCount: 12),
-                  tablet: ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            MouseRegion(
-                              onEnter: (event) {
-                                setState(() {
-                                  hoverIndex = index;
-                                });
-                              },
-                              onExit: (event) {
-                                setState(() {
-                                  hoverIndex = 20;
-                                });
-                              },
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (onTap == index) {
-                                      onTap = 20;
-                                    } else {
-                                      onTap = index;
-                                    }
-                                    if (tapToVisible == index) {
-                                      tapToVisible = 20;
-                                    } else {
-                                      tapToVisible = index;
-                                    }
-                                  });
-                                },
-                                child: Card(
-                                    color: onTap == index || hoverIndex == index
-                                        ? AppColors.seeGreen
-                                        : AppColors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0, vertical: 10.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                CircleAvatar(
-                                                  backgroundColor: onTap ==
-                                                              index ||
-                                                          hoverIndex == index
-                                                      ? AppColors.white
-                                                      : AppColors.seeGreen,
-                                                  radius: 25,
-                                                  child: CircleAvatar(
-                                                    radius: 11,
-                                                    backgroundColor: onTap ==
-                                                                index ||
-                                                            hoverIndex == index
-                                                        ? AppColors.seeGreen
-                                                        : AppColors.white,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 60,
-                                                ),
-                                                Flexible(
-                                                  child: Text(
-                                                    title[index],
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            size.width * 0.015,
-                                                        fontFamily: 'Oswald',
-                                                        color: AppColors.black
-                                                            .withOpacity(0.8),
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    maxLines: 2,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Icon(
-                                            onTap == index
-                                                ? EvaIcons.minus
-                                                : EvaIcons.plus,
-                                            size: 40,
-                                            color: onTap == index ||
-                                                    hoverIndex == index
-                                                ? AppColors.white
-                                                : AppColors.seeGreen,
-                                          )
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                            ),
-                            Visibility(
-                              visible: tapToVisible == index ? true : false,
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 5),
-                                color: AppColors.white,
-                                height: 200,
-                                width: size.width,
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 20,
-                        );
-                      },
-                      itemCount: 12),
-                  desktop: ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            MouseRegion(
-                              onEnter: (event) {
-                                setState(() {
-                                  hoverIndex = index;
-                                });
-                              },
-                              onExit: (event) {
-                                setState(() {
-                                  hoverIndex = 20;
-                                });
-                              },
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (onTap == index) {
-                                      onTap = 20;
-                                    } else {
-                                      onTap = index;
-                                    }
-                                    if (tapToVisible == index) {
-                                      tapToVisible = 20;
-                                    } else {
-                                      tapToVisible = index;
-                                    }
-                                  });
-                                },
-                                child: Card(
-                                    color: onTap == index || hoverIndex == index
-                                        ? AppColors.seeGreen
-                                        : AppColors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0, vertical: 10.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                CircleAvatar(
-                                                  backgroundColor: onTap ==
-                                                              index ||
-                                                          hoverIndex == index
-                                                      ? AppColors.white
-                                                      : AppColors.seeGreen,
-                                                  radius: 25,
-                                                  child: CircleAvatar(
-                                                    radius: 11,
-                                                    backgroundColor: onTap ==
-                                                                index ||
-                                                            hoverIndex == index
-                                                        ? AppColors.seeGreen
-                                                        : AppColors.white,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 60,
-                                                ),
-                                                Flexible(
-                                                  child: Text(
-                                                    title[index],
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            size.width * 0.015,
-                                                        fontFamily: 'Oswald',
-                                                        color: AppColors.black
-                                                            .withOpacity(0.8),
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    maxLines: 2,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Icon(
-                                            onTap == index
-                                                ? EvaIcons.minus
-                                                : EvaIcons.plus,
-                                            size: 40,
-                                            color: onTap == index ||
-                                                    hoverIndex == index
-                                                ? AppColors.white
-                                                : AppColors.seeGreen,
-                                          )
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                            ),
-                            Visibility(
-                              visible: tapToVisible == index ? true : false,
-                              child: Container(
-                                color: AppColors.white,
-                                height: 200,
-                                width: size.width,
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 20,
-                        );
-                      },
-                      itemCount: 12)),
-            ),
+                                  ),
+                                ),
+                                title:Text(title[index],
+                                    style: TextStyle(
+                                        fontSize: AppSizes.headline5,
+                                        fontFamily: 'Oswald',
+                                        color: AppColors.black
+                                            .withOpacity(0.8),
+                                        fontWeight: FontWeight.bold),
+                                maxLines: 2,),
+                                trailing:Icon(
+                                    onTap == index
+                                            ? EvaIcons.minus
+                                            : EvaIcons.plus,
+                                        size: 40,
+                                        color: onTap == index ||
+                                            hoverIndex == index
+                                            ? AppColors.white
+                                            : AppColors.seeGreen,
+                                ),
+                              )
+
+
+                              // Row(
+                              //   mainAxisAlignment:
+                              //   MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Expanded(
+                              //       child: Row(
+                              //         mainAxisAlignment:
+                              //         MainAxisAlignment.start,
+                              //         children: [
+                              //           CircleAvatar(
+
+                              //             radius: 25,
+                              //             child: CircleAvatar(
+                              //               radius: 11,
+
+                              //             ),
+                              //           ),
+                              //           const SizedBox(
+                              //             width: 60,
+                              //           ),
+                              //           Flexible(
+                              //             child: Text(
+                              //               title[index],
+                              //               style: TextStyle(
+                              //                   fontSize:
+                              //                   size.width * 0.015,
+                              //                   fontFamily: 'Oswald',
+                              //                   color: AppColors.black
+                              //                       .withOpacity(0.8),
+                              //                   fontWeight:
+                              //                   FontWeight.bold),
+                              //               maxLines: 2,
+                              //             ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //     Icon(
+                              //       onTap == index
+                              //           ? EvaIcons.minus
+                              //           : EvaIcons.plus,
+                              //       size: 40,
+                              //       color: onTap == index ||
+                              //           hoverIndex == index
+                              //           ? AppColors.white
+                              //           : AppColors.seeGreen,
+                              //     )
+                              //   ],
+                              // )
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: tapToVisible == index ? true : false,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                          padding: const EdgeInsets.all(AppSizes.dimen16),
+                          color: AppColors.white,
+                          width: size.width,
+                          height: 200,
+                        ),
+                      )
+                    ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(
+                    height: 20,
+                  );
+                },
+                itemCount: 12),
             SizedBox(
               height: size.height * 0.1,
             ),

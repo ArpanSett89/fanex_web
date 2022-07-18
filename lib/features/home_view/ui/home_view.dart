@@ -34,6 +34,7 @@ class _HomeViewState extends State<HomeView> {
   var _isVisibleForScrollView = false;
   late YoutubePlayerController controller;
   final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -53,16 +54,14 @@ class _HomeViewState extends State<HomeView> {
     _scrollController.addListener(() {
       if (_scrollController.position.atEdge) {
         if (_scrollController.position.pixels == 0) {
-          if (_isVisibleForScrollView)
-          {
+          if (_isVisibleForScrollView) {
             setState(() {
               _isVisibleForScrollView = false;
             });
           }
         }
       } else {
-        if (!_isVisibleForScrollView)
-        {
+        if (!_isVisibleForScrollView) {
           setState(() {
             _isVisibleForScrollView = true;
           });
@@ -75,153 +74,69 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColors.lightGrey.withOpacity(0.7),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  alignment: Alignment.topCenter,
-                  image: AssetImage('assets/images/home_banner.png'),
-                  fit: BoxFit.contain)),
-          child: ListView(
-              shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
-              children: [
-                Header(),
-                Padding(
-                  padding: const EdgeInsets.only(top: AppSizes.dimen60),
-                  child: Center(
+        backgroundColor: AppColors.lightGrey.withOpacity(0.7),
+        body: SingleChildScrollView(
+          controller: _scrollController,
+          child: Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    alignment: Alignment.topCenter,
+                    image: AssetImage('assets/images/home_banner.png'),
+                    fit: BoxFit.contain)),
+            child: ListView(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                children: [
+                  Header(),
+                  const BodyWidgets(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: size.width * 0.13,right: size.width * 0.13,top:size.width * 0.06),
                     child: Column(
-                      children: const [
-                        SizedBox(
-                          height: AppSizes.dimen30,
+                      children: [
+                        Text('LESS TAPS, MORE FUN !',
+                            style: TextStyle(
+                              fontFamily: 'Oswald',
+                              fontWeight: FontWeight.w700,
+                              fontSize:size.width<=800?AppSizes.headline4:size.width * 0.030,
+                              color: AppColors.black,
+                            )),
+                        Text(
+                          'Choose the cricket player that will have the best performance in each statistical category. Contests may have from 1 to 5 statistical categories. Users may play in public or private contests with friends.',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: size.width * 0.018,
+                            color: AppColors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
                         ),
-                        BodyWidgets(),
                       ],
                     ),
                   ),
-                ),
-                Responsive(
-                  mobile: Column(
-                    children: [
-                      Text('LESS TAPS, MORE FUN !',
-                          style: TextStyle(
-                            fontFamily: 'Oswald',
-                            fontWeight: FontWeight.w700,
-                            fontSize: size.width * 0.040,
-                            color: AppColors.black,
-                          )),
-                      Center(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.02),
-                          child: Text(
-                            'Choose the cricket player that will have the best performance in each statistical category. Contests may have from 1 to 5 statistical categories. Users may play in public or private contests with friends.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: size.width * 0.025,
-                              color: AppColors.black,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                    ],
-                  ),
-                  tablet: Column(
-                    children: [
-                      Text('LESS TAPS, MORE FUN !',
-                          style: TextStyle(
-                            fontFamily: 'Oswald',
-                            fontWeight: FontWeight.w700,
-                            fontSize: size.width * 0.030,
-                            color: AppColors.black,
-                          )),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.11),
-                        child: Center(
-                          child: Text(
-                            'Choose the cricket player that will have the best performance in each statistical category. Contests may have from 1 to 5 statistical categories. Users may play in public or private contests with friends.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: size.width * 0.013,
-                              color: AppColors.black,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                    ],
-                  ),
-                  desktop: Column(
-                    children: [
-                      Text('LESS TAPS, MORE FUN !',
-                          style: TextStyle(
-                            fontFamily: 'Oswald',
-                            fontWeight: FontWeight.w700,
-                            fontSize: size.width * 0.030,
-                            color: AppColors.black,
-                          )),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.11),
-                        child: Center(
-                          child: Text(
-                            'Choose the cricket player that will have the best performance in each statistical category. Contests may have from 1 to 5 statistical categories. Users may play in public or private contests with friends.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: size.width * 0.013,
-                              color: AppColors.black,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                    ],
-                  ),
-                ),
-                Responsive(
-                  mobile: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: SizedBox(
+                  Responsive(
+                    mobile: Container(
+                      margin: EdgeInsets.all(size.width * 0.05),
                       width: size.width,
-                      //height: size.height * 0.09,
-                      child: Center(
-                          child: ListView.separated(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (BuildContext context, int index) {
-                                return _listItem(context, title[index],
-                                    '${index + 1}', index);
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return SizedBox(
-                                  height: size.height * 0.04,
-                                );
-                              },
-                              itemCount: title.length)),
+                      child: ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _listItem(
+                                context, title[index], '${index + 1}', index);
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: size.height * 0.04,
+                            );
+                          },
+                          itemCount: title.length),
                     ),
-                  ),
-                  tablet: Container(
-                    width: size.width,
-                    height: size.height * 0.20,
-                    child: Center(
+                    tablet: Container(
+                      margin: EdgeInsets.all(size.width * 0.05),
+                      width: size.width,
+                      height: size.height * 0.20,
                       child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -237,36 +152,25 @@ class _HomeViewState extends State<HomeView> {
                           },
                           itemCount: title.length),
                     ),
+                    desktop: Container(
+                      margin: EdgeInsets.symmetric(horizontal:size.width * 0.05),
+                      width: size.width,
+                      height: size.height * 0.20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _listItem(context, title[0], '${1}', 0),
+                          const SizedBox(width: AppSizes.dimen24,),
+                          _listItem(context, title[1], '${2}', 1),
+                          const SizedBox(width: AppSizes.dimen24,),
+                          _listItem(context, title[2], '${3}', 2),
+                        ],
+                      ),
+                    ),
                   ),
-                  desktop: SizedBox(
-                    width: size.width,
-                    height: size.height * 0.20,
-                    child: Center(
-                        child: ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              return _listItem(context, title[index],
-                                  '${index + 1}', index);
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return size.width > 720
-                                  ? SizedBox(
-                                width: size.width * 0.04,
-                              )
-                                  : SizedBox(
-                                height: size.height * 0.04,
-                              );
-                            },
-                            itemCount: title.length)),
-                  ),
-                ),
-                Responsive(
-                  mobile: Padding(
-                    padding: EdgeInsets.all(size.width * 0.05),
-                    child: Container(
+                  Responsive(
+                    mobile: Container(
+                      margin: EdgeInsets.all(size.width * 0.05),
                       color: AppColors.black,
                       height: size.height * 0.35,
                       width: size.width,
@@ -275,10 +179,18 @@ class _HomeViewState extends State<HomeView> {
                         aspectRatio: 3 / 2,
                       ),
                     ),
-                  ),
-                  tablet: Padding(
-                    padding: EdgeInsets.all(size.width * 0.05),
-                    child: Container(
+                    tablet: Container(
+                      margin: EdgeInsets.all(size.width * 0.05),
+                      color: AppColors.black,
+                      height: size.height * 0.8,
+                      width: size.width,
+                      child: YoutubePlayerIFrame(
+                        controller: controller,
+                        aspectRatio: 3 / 2,
+                      ),
+                    ),
+                    desktop: Container(
+                      margin: EdgeInsets.all(size.width * 0.05),
                       color: AppColors.black,
                       height: size.height * 0.8,
                       width: size.width,
@@ -288,102 +200,80 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ),
-                  desktop: Padding(
-                    padding: EdgeInsets.all(size.width * 0.05),
-                    child: Container(
-                      color: AppColors.black,
-                      height: size.height * 0.8,
-                      width: size.width,
-                      child: YoutubePlayerIFrame(
-                        controller: controller,
-                        aspectRatio: 3 / 2,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(size.width * 0.05),
-                  child: _downloadBloc(context),
-                ),
-                const FooterView(),
-              ]),
+                  _downloadBloc(context),
+                  const FooterView(),
+                ]),
+          ),
         ),
-      ),
-      floatingActionButton:ScrollControlButton(onTap: () {
-        _scrollController.animateTo(0,
-            duration: const Duration(seconds: 1), curve: Curves.linear);
-      }, isVisible: _isVisibleForScrollView,)
-    );
+        floatingActionButton: ScrollControlButton(
+          onTap: () {
+            _scrollController.animateTo(0,
+                duration: const Duration(seconds: 1), curve: Curves.linear);
+          },
+          isVisible: _isVisibleForScrollView,
+        ));
   }
 }
 
 Widget _listItem(context, String title, title1, int index) {
-  return Row(
-    children: [
-      CircleAvatar(
-        backgroundColor: AppColors.seeGreen,
-        radius: 26,
-        child: Text(
-          title1,
-          style: const TextStyle(
-              fontFamily: 'Oswald', fontSize: 35, color: AppColors.white),
+  return SizedBox(
+    width: MediaQuery.of(context).size.width*0.25,
+    child: Row(
+      children: [
+        CircleAvatar(
+          backgroundColor: AppColors.seeGreen,
+          radius: 26,
+          child: Text(
+            title1,
+            style: const TextStyle(
+                fontFamily: 'Oswald', fontSize: 35, color: AppColors.white),
+          ),
         ),
-      ),
-      const SizedBox(
-        width: 20,
-      ),
-      index != 2
-          ? Text(
-              title,
-              maxLines: 2,
-              style: const TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Oswald',
-                  fontWeight: FontWeight.bold),
-            )
-          : Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20,),
-                const Text(
-                  'Enter Contest in Less than a Minute',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Oswald',
-                      fontWeight: FontWeight.bold),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '(',
+        const SizedBox(
+          width: 20,
+        ),
+        Flexible(
+            child: index != 2
+                ? Text(
+                    title,
+                    maxLines: 2,
                     style: const TextStyle(
                         fontSize: 20,
                         fontFamily: 'Oswald',
                         fontWeight: FontWeight.bold),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: 'TERMS APPLY',
-                          style: const TextStyle(
+                  )
+                : RichText(
+              textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: 'Enter Contest in Less than a Minute (',
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Oswald',
+                          fontWeight: FontWeight.bold),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: 'TERMS APPLY',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'Oswald',
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.twitter),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                print('Privacy Policy"');
+                              }),
+                        const TextSpan(
+                          text: ')',
+                          style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'Oswald',
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.twitter),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              print('Privacy Policy"');
-                            }),
-                      const TextSpan(
-                        text: ')',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Oswald',
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            )
-    ],
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ))
+      ],
+    ),
   );
 }
 
@@ -397,7 +287,7 @@ Widget _downloadBloc(context) {
   ];
   return Responsive(
       mobile: Container(
-        // height: size.height * 0.8,
+        margin: EdgeInsets.all(size.width * 0.05),
         width: size.width * 0.8,
         child: ListView(
           physics: const NeverScrollableScrollPhysics(),
@@ -497,7 +387,7 @@ Widget _downloadBloc(context) {
                             fit: BoxFit.fill,
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: AppSizes.dimen12,
                           ),
                           Image.asset(
                             'assets/images/i_phone_download_image.png',
@@ -522,12 +412,9 @@ Widget _downloadBloc(context) {
         ),
       ),
       tablet: Container(
-        height: size.height,
-        width: size.width * 0.8,
-        child: ListView(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          scrollDirection: size.width > 720 ? Axis.horizontal : Axis.vertical,
+        margin: EdgeInsets.all(size.width * 0.05),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
               width: size.width * 0.4,
@@ -540,7 +427,7 @@ Widget _downloadBloc(context) {
                           style: TextStyle(
                             fontFamily: 'Oswald',
                             fontWeight: FontWeight.bold,
-                            fontSize: 35,
+                            fontSize: AppSizes.headline1,
                             color: AppColors.black,
                           )),
                       SizedBox(
@@ -548,7 +435,7 @@ Widget _downloadBloc(context) {
                       ),
                       Image.asset(
                         'assets/images/fanex_logo.png',
-                        width: size.width * 0.20,
+                        width: size.width * 0.15,
                         fit: BoxFit.cover,
                       ),
                     ],
@@ -638,26 +525,18 @@ Widget _downloadBloc(context) {
                 ],
               ),
             ),
-            SizedBox(
-              width: size.width * 0.07,
-            ),
-            FittedBox(
-              child: Image.asset(
-                'assets/images/mobile.png',
-                fit: BoxFit.contain,
-                height: size.width*0.04,
-              ),
+            Image.asset(
+              'assets/images/mobile.png',
+              fit: BoxFit.cover,
+              height: size.width * 0.4,
             ),
           ],
         ),
       ),
-      desktop: SizedBox(
-        height: size.height * 0.8,
-        width: size.width * 0.8,
-        child: ListView(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
+      desktop: Container(
+        margin: EdgeInsets.all(size.width * 0.05),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
               width: size.width * 0.4,
@@ -699,7 +578,7 @@ Widget _downloadBloc(context) {
                               radius: 20,
                               child: CircleAvatar(
                                 backgroundColor: AppColors.transparent,
-                                radius: 12,
+                                radius: AppSizes.dimen12,
                                 backgroundImage: index == 0
                                     ? const AssetImage(
                                         'assets/icons/cross.png',
@@ -716,9 +595,9 @@ Widget _downloadBloc(context) {
                               title1[index],
                               style: const TextStyle(
                                 fontFamily: 'Oswald',
-                                fontSize: 21,
+                                fontSize: AppSizes.headline4,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.black,
+                                color: AppColors.darkGrey,
                               ),
                               maxLines: 2,
                             ),
@@ -743,7 +622,7 @@ Widget _downloadBloc(context) {
                         fit: BoxFit.cover,
                       ),
                       const SizedBox(
-                        width: 20,
+                        width: AppSizes.dimen24,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -754,7 +633,7 @@ Widget _downloadBloc(context) {
                             fit: BoxFit.fill,
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: AppSizes.dimen12,
                           ),
                           Image.asset(
                             'assets/images/i_phone_download_image.png',
@@ -768,12 +647,10 @@ Widget _downloadBloc(context) {
                 ],
               ),
             ),
-            SizedBox(
-              width: size.width * 0.15,
-            ),
             Image.asset(
               'assets/images/mobile.png',
               fit: BoxFit.cover,
+              height: 500,
             ),
           ],
         ),
