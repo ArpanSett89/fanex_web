@@ -8,6 +8,7 @@ import '../../../common/widgets/footer/footer_ui.dart';
 import '../../../common/widgets/header/header_ui.dart';
 import '../../../common/widgets/scroll_control_button/scroll_control_button.dart';
 import '../widgets/body_widgets.dart';
+import '../widgets/terms_of_use.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -72,7 +73,9 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
         backgroundColor: AppColors.lightGrey.withOpacity(0.7),
         body: SingleChildScrollView(
@@ -91,14 +94,18 @@ class _HomeViewState extends State<HomeView> {
                   const BodyWidgets(),
                   Padding(
                     padding: EdgeInsets.only(
-                        left: size.width * 0.13,right: size.width * 0.13,top:size.width * 0.06),
+                        left: size.width * 0.13,
+                        right: size.width * 0.13,
+                        top: size.width * 0.06),
                     child: Column(
                       children: [
                         Text('LESS TAPS, MORE FUN !',
                             style: TextStyle(
                               fontFamily: 'Oswald',
                               fontWeight: FontWeight.w700,
-                              fontSize:size.width<=800?AppSizes.headline4:size.width * 0.030,
+                              fontSize: size.width <= 800
+                                  ? AppSizes.headline4
+                                  : size.width * 0.030,
                               color: AppColors.black,
                             )),
                         Text(
@@ -153,7 +160,8 @@ class _HomeViewState extends State<HomeView> {
                           itemCount: title.length),
                     ),
                     desktop: Container(
-                      margin: EdgeInsets.symmetric(horizontal:size.width * 0.05),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: size.width * 0.05),
                       width: size.width,
                       height: size.height * 0.20,
                       child: Row(
@@ -217,7 +225,10 @@ class _HomeViewState extends State<HomeView> {
 
 Widget _listItem(context, String title, title1, int index) {
   return SizedBox(
-    width: MediaQuery.of(context).size.width*0.25,
+    width: MediaQuery
+        .of(context)
+        .size
+        .width * 0.25,
     child: Row(
       children: [
         CircleAvatar(
@@ -235,50 +246,53 @@ Widget _listItem(context, String title, title1, int index) {
         Flexible(
             child: index != 2
                 ? Text(
-                    title,
-                    maxLines: 2,
-                    style: const TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Oswald',
-                        fontWeight: FontWeight.bold),
-                  )
+              title,
+              maxLines: 2,
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Oswald',
+                  fontWeight: FontWeight.bold),
+            )
                 : RichText(
               textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: 'Enter Contest in Less than a Minute (',
+              text: TextSpan(
+                text: 'Enter Contest in Less than a Minute (',
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Oswald',
+                    fontWeight: FontWeight.bold),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'TERMS APPLY',
                       style: const TextStyle(
                           fontSize: 20,
                           fontFamily: 'Oswald',
-                          fontWeight: FontWeight.bold),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: 'TERMS APPLY',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Oswald',
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.twitter),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                print('Privacy Policy"');
-                              }),
-                        const TextSpan(
-                          text: ')',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Oswald',
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ))
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.twitter),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const TermsOfUse()));
+                          print('Privacy Policy"');
+                        }),
+                  const TextSpan(
+                    text: ')',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Oswald',
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ))
       ],
     ),
   );
 }
 
 Widget _downloadBloc(context) {
-  Size size = MediaQuery.of(context).size;
+  Size size = MediaQuery
+      .of(context)
+      .size;
   List<String> title1 = [
     'No need to find a combination of 11 players within a set limit of credits',
     'Simply pick the cricket player that will have the best performance',
@@ -335,11 +349,11 @@ Widget _downloadBloc(context) {
                                 radius: 12,
                                 backgroundImage: index == 0
                                     ? const AssetImage(
-                                        'assets/icons/cross.png',
-                                      )
+                                  'assets/icons/cross.png',
+                                )
                                     : const AssetImage(
-                                        'assets/icons/check.png',
-                                      ),
+                                  'assets/icons/check.png',
+                                ),
                               )),
                           SizedBox(
                             width: size.width * 0.02,
@@ -459,11 +473,11 @@ Widget _downloadBloc(context) {
                                 radius: 8,
                                 backgroundImage: index == 0
                                     ? const AssetImage(
-                                        'assets/icons/cross.png',
-                                      )
+                                  'assets/icons/cross.png',
+                                )
                                     : const AssetImage(
-                                        'assets/icons/check.png',
-                                      ),
+                                  'assets/icons/check.png',
+                                ),
                               )),
                           SizedBox(
                             width: size.width * 0.01,
@@ -581,11 +595,11 @@ Widget _downloadBloc(context) {
                                 radius: AppSizes.dimen12,
                                 backgroundImage: index == 0
                                     ? const AssetImage(
-                                        'assets/icons/cross.png',
-                                      )
+                                  'assets/icons/cross.png',
+                                )
                                     : const AssetImage(
-                                        'assets/icons/check.png',
-                                      ),
+                                  'assets/icons/check.png',
+                                ),
                               )),
                           SizedBox(
                             width: size.width * 0.02,

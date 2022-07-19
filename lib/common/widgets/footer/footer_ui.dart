@@ -9,7 +9,7 @@ class FooterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.dimen55),
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05),
       height: 180,
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
