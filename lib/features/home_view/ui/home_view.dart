@@ -230,6 +230,7 @@ Widget _listItem(context, String title, title1, int index) {
         .size
         .width * 0.25,
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CircleAvatar(
           backgroundColor: AppColors.seeGreen,

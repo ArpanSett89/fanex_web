@@ -15,8 +15,13 @@ class ChakraView extends StatefulWidget {
   @override
   State<ChakraView> createState() => _ChakraViewState();
 }
+
 class _ChakraViewState extends State<ChakraView> {
   int dropdownValueIndex = 0;
+  ChakraEndDateListResponseModel chakraEndDateListResponseModel =
+      ChakraEndDateListResponseModel();
+  final TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,13 +39,15 @@ class _ChakraViewState extends State<ChakraView> {
             children: [
               Header(),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: AppSizes.dimen30, vertical: AppSizes.dimen30),
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.05,
+                    vertical: AppSizes.dimen30),
                 child: Container(
                   margin: EdgeInsets.zero,
                   decoration: BoxDecoration(
                     color: AppColors.orange,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius:
+                        BorderRadius.circular(AppSizes.cardCornerRadius),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -54,16 +61,30 @@ class _ChakraViewState extends State<ChakraView> {
                               icon: const Icon(
                                 Icons.search,
                                 color: AppColors.white,
+                                size:AppSizes.headline3,
                               ))),
                       Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: AppColors.white,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(15)),
-                            hintText: AppStrings.SearchText,
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppSizes.dimen8),
+                          child: TextField(
+                            onChanged: (value) {
+                              BlocProvider.of<BodyListBloc>(context).add(
+                                  SearchBodyList(
+                                      chakraEndDateListResponseModel
+                                          .data![dropdownValueIndex].id
+                                          .toString(),
+                                      value));
+                            },
+                            controller: textEditingController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: AppColors.white,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(
+                                      AppSizes.cardCornerRadius)),
+                              hintText: AppStrings.SearchText,
+                            ),
                           ),
                         ),
                       ),
@@ -73,6 +94,8 @@ class _ChakraViewState extends State<ChakraView> {
                       BlocBuilder<EndListBloc, EndListState>(
                         builder: (context, state) {
                           if (state is EndListLoaded) {
+                            chakraEndDateListResponseModel =
+                                state.chakraEndDateListResponseModel;
                             BlocProvider.of<BodyListBloc>(context).add(
                                 GetBodyList(state.chakraEndDateListResponseModel
                                     .data![dropdownValueIndex].id
@@ -101,8 +124,14 @@ class _ChakraViewState extends State<ChakraView> {
                                     child: Center(
                                       child: Text(
                                         e.date.toString(),
-                                        style:  TextStyle(
-                                            color:dropdownValueIndex==state.chakraEndDateListResponseModel.data!.indexOf(e)?AppColors.white:AppColors.orange,
+                                        style: TextStyle(
+                                            color: dropdownValueIndex ==
+                                                    state
+                                                        .chakraEndDateListResponseModel
+                                                        .data!
+                                                        .indexOf(e)
+                                                ? AppColors.white
+                                                : AppColors.orange,
                                             fontWeight: FontWeight.normal),
                                       ),
                                     ),
@@ -115,7 +144,7 @@ class _ChakraViewState extends State<ChakraView> {
                                         .indexOf(newValue!);
                                     if (kDebugMode) {
                                       print(
-                                        "dropdownValueIndex________ $dropdownValueIndex");
+                                          "dropdownValueIndex________ $dropdownValueIndex");
                                     }
                                   });
                                   BlocProvider.of<BodyListBloc>(context).add(
@@ -151,5 +180,3 @@ class _ChakraViewState extends State<ChakraView> {
     );
   }
 }
-
-

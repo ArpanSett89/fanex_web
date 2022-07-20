@@ -38,10 +38,12 @@ class _ChakraBodyState extends State<ChakraBody> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.dimen30),
+      padding:  EdgeInsets.symmetric(horizontal: size.width*0.05),
       child: BlocBuilder<BodyListBloc, BodyListState>(
         builder: (context, state) {
+          print(state.toString());
           if (state is BodyListInitial || state is BodyListLoading) {
+            hoverIndex = 0;
             return SizedBox(
                 height: size.height,
                 width: size.width,
@@ -50,7 +52,21 @@ class _ChakraBodyState extends State<ChakraBody> {
                   color: AppColors.orange,
                 )));
           }
+          if(state is BodyListError){
+            return SizedBox(
+                height: size.height,
+                width: size.width,
+                child:  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.error_outline,size: AppSizes.headline1,color: AppColors.error),
+                        Text(state.msg.toString(),style: const TextStyle(fontSize: AppSizes.headline1,color: AppColors.error,fontWeight: FontWeight.bold),),
+                      ],
+                    )));
+          }
           if (state is BodyListLoaded) {
+
             return Responsive(
               mobile: ListView(
                 scrollDirection: Axis.vertical,
@@ -131,9 +147,7 @@ class _ChakraBodyState extends State<ChakraBody> {
                             alignment: Alignment.topCenter,
                             image: AssetImage('assets/images/chakra_body.png'),
                             fit: BoxFit.cover)),
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
+                    child: Column(
                       children: [
                         const SizedBox(
                           height: AppSizes.dimen60,
@@ -189,6 +203,17 @@ class _ChakraBodyState extends State<ChakraBody> {
                         const SizedBox(
                           height: AppSizes.dimen24,
                         ),
+                        Center(
+                            child: Text(
+                              state.chakraBodyListModel.data![selectedIndex]
+                                  .userUsername
+                                  .toString(),
+                              style: const TextStyle(
+                                  fontFamily: 'Oswald',
+                                  fontSize: AppSizes.headline1,
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.bold),
+                            )),
                         Padding(
                           padding: const EdgeInsets.only(
                               top: AppSizes.dimen24,
@@ -211,17 +236,6 @@ class _ChakraBodyState extends State<ChakraBody> {
                             ],
                           ),
                         ),
-                        Center(
-                            child: Text(
-                          state.chakraBodyListModel.data![selectedIndex]
-                              .userUsername
-                              .toString(),
-                          style: const TextStyle(
-                              fontFamily: 'Oswald',
-                              fontSize: AppSizes.headline1,
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold),
-                        )),
                         const SizedBox(
                           height: 50,
                         ),
@@ -620,6 +634,17 @@ class _ChakraBodyState extends State<ChakraBody> {
                                   const SizedBox(
                                     height: AppSizes.dimen24,
                                   ),
+                                  Center(
+                                      child: Text(
+                                        state.chakraBodyListModel
+                                            .data![selectedIndex].userUsername
+                                            .toString(),
+                                        style: const TextStyle(
+                                            fontFamily: 'Oswald',
+                                            fontSize: AppSizes.headline1,
+                                            color: AppColors.white,
+                                            fontWeight: FontWeight.bold),
+                                      )),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         top: AppSizes.dimen24,
@@ -645,17 +670,6 @@ class _ChakraBodyState extends State<ChakraBody> {
                                       ],
                                     ),
                                   ),
-                                  Center(
-                                      child: Text(
-                                    state.chakraBodyListModel
-                                        .data![selectedIndex].userUsername
-                                        .toString(),
-                                    style: const TextStyle(
-                                        fontFamily: 'Oswald',
-                                        fontSize: AppSizes.headline1,
-                                        color: AppColors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )),
                                   const SizedBox(
                                     height: 50,
                                   ),
